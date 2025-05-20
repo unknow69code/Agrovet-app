@@ -14,4 +14,8 @@ yarn dev
 # or
 pnpm dev
 # or
+<<<<<<< HEAD
 bun dev
+=======
+bun dev
+>>>>>>> 4cf8c70d92221132f9c2556075f5b213485e50b2
