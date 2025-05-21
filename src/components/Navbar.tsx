@@ -18,6 +18,16 @@ import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
+// Extend the session user type to include 'role'
+declare module "next-auth" {
+  interface User {
+    role?: string;
+  }
+  interface Session {
+    user?: User;
+  }
+}
+
 const navigationConfig = [
   {
     name: "Home",

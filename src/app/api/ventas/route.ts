@@ -30,7 +30,8 @@ export async function POST(req: Request) {
         };
 
         const idVentaGenerada = await guardarVenta(ventaData);
-
+        
+        console.log("Venta registrada con ID:", productos);
         // Actualizar el stock de los productos vendidos
         try {
             await Promise.all(

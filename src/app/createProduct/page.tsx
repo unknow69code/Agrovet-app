@@ -28,9 +28,12 @@ function ProductRegister() {
       e.currentTarget.reset();
     } catch (error) {
       if (error instanceof AxiosError) {
-        enqueueSnackbar(error.response?.data.message || "Error al crear producto", {
-          variant: "error",
-        });
+        enqueueSnackbar(
+          error.response?.data.message || "Error al crear producto",
+          {
+            variant: "error",
+          }
+        );
       }
     }
   };
@@ -39,59 +42,129 @@ function ProductRegister() {
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 px-4 py-12">
       <div className="w-full max-w-2xl rounded-2xl bg-white p-10 shadow-lg">
         <div className="mb-6 text-center">
-          <h2 className="text-3xl font-bold text-gray-800">Registrar nuevo producto</h2>
-          <p className="mt-2 text-sm text-gray-500">Completa los campos para agregar un producto al inventario.</p>
+          <h2 className="text-3xl font-bold text-gray-800">
+            Registrar nuevo producto
+          </h2>
+          <p className="mt-2 text-sm text-gray-500">
+            Completa los campos para agregar un producto al inventario.
+          </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label htmlFor="nombre" className="label">Nombre</label>
-              <input type="text" name="nombre" id="nombre" required className="input" />
+              <label htmlFor="nombre" className="label">
+                Nombre
+              </label>
+              <input
+                type="text"
+                name="nombre"
+                id="nombre"
+                required
+                className="input"
+              />
             </div>
 
             <div>
-              <label htmlFor="descripcion" className="label">Descripción</label>
-              <input type="text" name="descripcion" id="descripcion" className="input" />
+              <label htmlFor="descripcion" className="label">
+                Descripción
+              </label>
+              <input
+                type="text"
+                name="descripcion"
+                id="descripcion"
+                className="input"
+              />
             </div>
 
             <div>
-              <label htmlFor="precio_compra" className="label">Precio compra</label>
-              <input type="number" name="precio_compra" id="precio_compra" step="0.01" required className="input" />
+              <label htmlFor="precio_compra" className="label">
+                Precio compra
+              </label>
+              <input
+                type="number"
+                name="precio_compra"
+                id="precio_compra"
+                step="0.01"
+                required
+                className="input"
+              />
             </div>
 
             <div>
-              <label htmlFor="precio" className="label">Precio venta</label>
-              <input type="number" name="precio" id="precio" step="0.01" required className="input" />
+              <label htmlFor="precio" className="label">
+                Precio venta
+              </label>
+              <input
+                type="number"
+                name="precio"
+                id="precio"
+                step="0.01"
+                required
+                className="input"
+              />
             </div>
 
             <div>
-              <label htmlFor="stock" className="label">Stock</label>
-              <input type="number" name="stock" id="stock" required className="input" />
+              <label htmlFor="stock" className="label">
+                Stock
+              </label>
+              <input
+                type="number"
+                name="stock"
+                id="stock"
+                required
+                className="input"
+              />
             </div>
 
             <div>
-              <label htmlFor="stock_minimo" className="label">Stock mínimo</label>
-              <input type="number" name="stock_minimo" id="stock_minimo" className="input" />
+              <label htmlFor="stock_minimo" className="label">
+                Stock mínimo
+              </label>
+              <input
+                type="number"
+                name="stock_minimo"
+                id="stock_minimo"
+                className="input"
+              />
             </div>
 
             <div>
-              <label htmlFor="fecha_vencimiento" className="label">Fecha de vencimiento</label>
-              <input type="date" name="fecha_vencimiento" id="fecha_vencimiento" className="input" />
+              <label htmlFor="fecha_vencimiento" className="label">
+                Fecha de vencimiento
+              </label>
+              <input
+                type="date"
+                name="fecha_vencimiento"
+                id="fecha_vencimiento"
+                className="input"
+              />
             </div>
 
             <div>
-              <label htmlFor="lote" className="label">Lote</label>
+              <label htmlFor="lote" className="label">
+                Lote
+              </label>
               <input type="text" name="lote" id="lote" className="input" />
             </div>
 
             <div>
-              <label htmlFor="foto_url" className="label">URL de la foto</label>
-              <input type="url" name="foto_url" id="foto_url" className="input" />
+              <label htmlFor="foto_url" className="label">
+                URL de la foto
+              </label>
+              <input
+                type="url"
+                name="foto_url"
+                id="foto_url"
+                className="input"
+              />
             </div>
 
             <div>
-              <label htmlFor="estado" className="label">Estado</label>
+              <label htmlFor="estado" className="label">
+                Estado
+              </label>
               <select name="estado" id="estado" className="input">
                 <option value="activo">Activo</option>
                 <option value="descontinuado">Descontinuado</option>
