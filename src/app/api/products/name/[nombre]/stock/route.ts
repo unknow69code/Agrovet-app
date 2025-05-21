@@ -9,9 +9,10 @@ interface ProductParams {
 
 export async function PUT(
   req: Request,
-  { params }: { params: ProductParams } // Corrected type for params
+  context: { params: ProductParams } // Changed to 'context' as the second argument
 ) {
   try {
+    const { params } = context; // Destructure params from context
     const { nuevoStock, nuevoPrecio } = await req.json();
 
     if (!nuevoStock || isNaN(nuevoStock)) {
@@ -28,7 +29,7 @@ export async function PUT(
       );
     }
 
-    const nombreProducto = params.nombre; // Access params directly
+    const nombreProducto = params.nombre;
 
     const result = await updateStockAndPriceByName(nombreProducto, nuevoStock, parseFloat(nuevoPrecio)) as ResultSetHeader;
 
