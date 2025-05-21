@@ -1,8 +1,8 @@
 import { updateStockAndPriceByName } from "@/models/producto";
 import { ResultSetHeader } from "mysql2";
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 
-export async function PUT(req: Request,{ params }: { params: { nombre: string } }
+export async function PUT(req: NextRequest,{ params }: { params: { nombre: string } }
 ) {
   try {
     const { nuevoStock, nuevoPrecio } = await req.json();
