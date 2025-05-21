@@ -39,7 +39,8 @@ export async function POST(request: Request) {
 }
 
 export async function GET(req: Request) {
-  const cedula = req.nextUrl.searchParams.get('cedula');
+  const { searchParams } = new URL(req.url);
+  const cedula = searchParams.get('cedula');
 
   if (!cedula) {
     return NextResponse.json(
