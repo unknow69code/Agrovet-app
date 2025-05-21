@@ -25,7 +25,8 @@ export async function GET(req: Request) {
   try {
     if (shouldCount === 'true') {
       const result = await countProducts();
-      const count = result[0]?.total || 0;
+      const typedResult = result as Array<{ total: number }>;
+      const count = typedResult[0]?.total || 0;
       return NextResponse.json({ count }, { status: 200 });
     } else {
       const productos = await getProducts();
