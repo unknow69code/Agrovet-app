@@ -11,12 +11,12 @@ export interface Venta {
 
 export async function guardarVenta(ventaData: Omit<Venta, 'id_venta'>): Promise<number> {
     try {
-        const result: any = await queryDatabase<Venta>(
+        const result = await queryDatabase(
             "INSERT INTO ventas (id_cliente, total, productos) VALUES (?, ?, ?)",
             [ventaData.id_cliente, ventaData.total, JSON.stringify(ventaData.productos)]
         );
 
-        return result.insertId;
+        return (result as { insertId: number }).insertId;
     } catch (error: any) {
         console.error("Error al guardar la venta:", error.message);
         throw new Error("Error al guardar la venta: " + error.message);
