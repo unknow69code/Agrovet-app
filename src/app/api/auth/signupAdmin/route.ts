@@ -5,7 +5,7 @@ export async function POST(request: Request) {
   const { nombre, correo, password } = await request.json();
 
   try {
-    const admin = await createAdmin(nombre, correo, password);
+    const admin: any = await createAdmin(nombre, correo, password);
 
     return NextResponse.json(
       {
