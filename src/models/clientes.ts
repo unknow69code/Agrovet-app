@@ -40,10 +40,10 @@ interface Clientes {
 
 export async function findClientdate(): Promise<Clientes[]> {
   try {
-    const resp: Clientes[] = await queryDatabase<Clientes[]>(
+    const resp = await queryDatabase(
       "SELECT id, nombre, cedula, telefono, direccion FROM cliente",
       []
-    );
+    ) as Clientes[];
     return resp;
   } catch (error: any) {
     console.error("Error al obtener los clientes:", error.message);
@@ -63,7 +63,7 @@ interface Cliente {
 export async function findClienteByCedula(cedula: string): Promise<Cliente | null> {
   const query = "SELECT * FROM cliente WHERE cedula = ?"; // Ajusta el nombre de la tabla y la columna si es diferente
   try {
-    const results: Cliente[] = await queryDatabase(query, [cedula]);
+    const results = await queryDatabase(query, [cedula]) as Cliente[];
     if (results.length > 0) {
       return results[0]; // Devuelve el primer cliente encontrado
     } else {
