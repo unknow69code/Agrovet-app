@@ -1,33 +1,42 @@
 import { updateStockAndPriceByName } from "@/models/producto";
 import { ResultSetHeader } from "mysql2";
-import { NextRequest, NextResponse } from "next/server"; // Import NextRequest
+import { NextRequest, NextResponse } from "next/server";
 
-export async function PUT(
-  req: NextRequest, // Use NextRequest for better type inference and features
-  { params }: { params: { nombre: string } }
-) {
+export async function PUT(req: NextRequest) {
   try {
     const { nuevoStock, nuevoPrecio } = await req.json();
 
-    if (nuevoStock === undefined || isNaN(Number(nuevoStock))) { // More robust check for numbers
+    if (nuevoStock === undefined || isNaN(Number(nuevoStock))) {
       return NextResponse.json(
         { error: "Stock inválido. Debe ser un número." },
         { status: 400 }
       );
     }
 
-    if (nuevoPrecio === undefined || isNaN(parseFloat(nuevoPrecio))) { // More robust check for numbers
+    if (nuevoPrecio === undefined || isNaN(parseFloat(nuevoPrecio))) {
       return NextResponse.json(
         { error: "Precio inválido. Debe ser un número." },
         { status: 400 }
       );
     }
 
-    const nombreProducto = params.nombre; // Direct access, Promise.resolve is not needed here
+    // Extraer el nombre del producto desde la URL
+    const url = new URL(req.url);
+    // Suponiendo estructura: /api/products/name/[nombre]/stock
+    const parts = url.pathname.split("/");
+    const nombreIndex = parts.indexOf("name") + 1;
+    const nombreProducto = parts[nombreIndex];
+
+    if (!nombreProducto) {
+      return NextResponse.json(
+        { error: "Nombre de producto no especificado en la URL." },
+        { status: 400 }
+      );
+    }
 
     const result = (await updateStockAndPriceByName(
       nombreProducto,
-      Number(nuevoStock), // Ensure it's a number
+      Number(nuevoStock),
       parseFloat(nuevoPrecio)
     )) as ResultSetHeader;
 
@@ -45,7 +54,7 @@ export async function PUT(
       );
     }
   } catch (error: any) {
-    console.error("Error al actualizar stock y precio:", error); // Log the error for debugging
+    console.error("Error al actualizar stock y precio:", error);
     return NextResponse.json(
       { error: "Error interno del servidor al actualizar stock y precio." },
       { status: 500 }
