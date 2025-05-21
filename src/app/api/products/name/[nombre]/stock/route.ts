@@ -2,9 +2,14 @@ import { NextResponse } from "next/server";
 import { updateStockAndPriceByName } from "@/models/producto";
 import { ResultSetHeader } from 'mysql2';
 
+// Define the type for the params object
+interface ProductParams {
+  nombre: string;
+}
+
 export async function PUT(
   req: Request,
-  { params }: { params: { nombre: string } }
+  { params }: { params: ProductParams } // Corrected type for params
 ) {
   try {
     const { nuevoStock, nuevoPrecio } = await req.json();
@@ -23,7 +28,7 @@ export async function PUT(
       );
     }
 
-     const nombreProducto = await Promise.resolve(params.nombre);
+    const nombreProducto = params.nombre; // Access params directly
 
     const result = await updateStockAndPriceByName(nombreProducto, nuevoStock, parseFloat(nuevoPrecio)) as ResultSetHeader;
 
