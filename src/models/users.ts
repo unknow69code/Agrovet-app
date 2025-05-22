@@ -50,10 +50,10 @@ interface TrabajadorBasico {
 
 export async function findUserdate(): Promise<TrabajadorBasico[]> {
   try {
-    const resp: TrabajadorBasico[] = await queryDatabase<TrabajadorBasico[]>(
+    const resp = await queryDatabase(
       "SELECT id, nombre, correo, cedula, telefono, direccion FROM trabajadores",
       []
-    );
+    ) as TrabajadorBasico[];
     return resp;
   } catch (error: any) {
     console.error("Error al obtener los trabajadores:", error.message);

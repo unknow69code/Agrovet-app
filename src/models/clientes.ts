@@ -4,12 +4,11 @@ export async function createClient(
   nombre: string,
   cedula: string,
   direccion: string,
-  telefono: string,
+  telefono: string
 ) {
   if (!nombre || !cedula || direccion == "" || telefono == "")
     throw new Error("Todos los datos son requeridos");
 
-  
   const trabajadores: any = await queryDatabase(
     "INSERT INTO cliente (nombre, cedula, direccion, telefono) VALUES (?, ?, ?, ?)",
     [nombre, cedula, direccion, telefono]
@@ -21,12 +20,12 @@ export async function createClient(
   };
 }
 
-export async function findclientBycc(cedula: number){
-    const [existingProduct]: any = await queryDatabase(
-        "SELECT id FROM cliente WHERE cedula = ?",
-        [cedula]
-      );
-      return existingProduct
+export async function findclientBycc(cedula: number) {
+  const [existingProduct]: any = await queryDatabase(
+    "SELECT id FROM cliente WHERE cedula = ?",
+    [cedula]
+  );
+  return existingProduct;
 }
 
 interface Clientes {
@@ -40,10 +39,10 @@ interface Clientes {
 
 export async function findClientdate(): Promise<Clientes[]> {
   try {
-    const resp = await queryDatabase(
+    const resp = (await queryDatabase(
       "SELECT id, nombre, cedula, telefono, direccion FROM cliente",
       []
-    ) as Clientes[];
+    )) as Clientes[];
     return resp;
   } catch (error: any) {
     console.error("Error al obtener los clientes:", error.message);
@@ -60,17 +59,22 @@ interface Cliente {
   // ... otras propiedades del cliente
 }
 
-export async function findClienteByCedula(cedula: string): Promise<Cliente | null> {
+export async function findClienteByCedula(
+  cedula: string
+): Promise<Cliente | null> {
   const query = "SELECT * FROM cliente WHERE cedula = ?"; // Ajusta el nombre de la tabla y la columna si es diferente
   try {
-    const results = await queryDatabase(query, [cedula]) as Cliente[];
+    const results = (await queryDatabase(query, [cedula])) as Cliente[];
     if (results.length > 0) {
       return results[0]; // Devuelve el primer cliente encontrado
     } else {
       return null; // No se encontró ningún cliente con esa cédula
     }
   } catch (error: any) {
-    console.error("Error al buscar cliente por cédula en la base de datos:", error.message);
+    console.error(
+      "Error al buscar cliente por cédula en la base de datos:",
+      error.message
+    );
     throw error;
   }
 }
