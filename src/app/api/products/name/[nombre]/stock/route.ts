@@ -38,7 +38,7 @@ export async function PUT(req: NextRequest) {
       nombreProducto,
       Number(nuevoStock),
       parseFloat(nuevoPrecio)
-    )) as ResultSetHeader;
+    )) as unknown as ResultSetHeader;
 
     if (result?.affectedRows > 0) {
       return NextResponse.json({
