@@ -1,7 +1,13 @@
 import { queryDatabase } from "@/libs/db";
 
+type AdminType = {
+  id: number;
+  nombre: string;
+  correo: string;
+};
+
 async function Admin() {
-  const admin: any = await queryDatabase("SELECT * FROM admin ORDER BY id ASC", []);
+  const admin = await queryDatabase("SELECT * FROM admin ORDER BY id ASC", []) as AdminType[];
 
   return (
     <main className="min-h-screen bg-gray-100 p-8">
@@ -17,7 +23,7 @@ async function Admin() {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
-            {admin.map((admin: any) => (
+            {admin.map((admin: AdminType) => (
               <tr key={admin.id} className="hover:bg-gray-50">
                 <td className="px-4 py-2 text-sm">{admin.id}</td>
                 <td className="px-4 py-2 text-sm">{admin.nombre}</td>
