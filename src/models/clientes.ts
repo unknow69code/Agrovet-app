@@ -10,7 +10,7 @@ export async function createClient(
     throw new Error("Todos los datos son requeridos");
 
   const trabajadores: any = await queryDatabase(
-    "INSERT INTO Cliente (nombre, cedula, direccion, telefono) VALUES (?, ?, ?, ?)",
+    "INSERT INTO cliente (nombre, cedula, direccion, telefono) VALUES (?, ?, ?, ?)",
     [nombre, cedula, direccion, telefono]
   );
   return {
@@ -22,7 +22,7 @@ export async function createClient(
 
 export async function findclientBycc(cedula: number) {
   const [existingProduct]: any = await queryDatabase(
-    "SELECT id FROM Cliente WHERE cedula = ?",
+    "SELECT id FROM cliente WHERE cedula = ?",
     [cedula]
   );
   return existingProduct;
@@ -40,7 +40,7 @@ interface Clientes {
 export async function findClientdate(): Promise<Clientes[]> {
   try {
     const resp = (await queryDatabase(
-      "SELECT id, nombre, cedula, telefono, direccion FROM Cliente",
+      "SELECT id, nombre, cedula, telefono, direccion FROM cliente",
       []
     )) as Clientes[];
     return resp;
@@ -62,7 +62,7 @@ interface Cliente {
 export async function findClienteByCedula(
   cedula: string
 ): Promise<Cliente | null> {
-  const query = "SELECT * FROM Cliente WHERE cedula = ?"; // Ajusta el nombre de la tabla y la columna si es diferente
+  const query = "SELECT * FROM cliente WHERE cedula = ?"; // Ajusta el nombre de la tabla y la columna si es diferente
   try {
     const results = (await queryDatabase(query, [cedula])) as Cliente[];
     if (results.length > 0) {
