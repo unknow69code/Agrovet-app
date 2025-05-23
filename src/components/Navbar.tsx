@@ -1,3 +1,4 @@
+// @/app/components/Navbar.tsx (or wherever your Navbar component is)
 "use client";
 import Link from "next/link";
 import {
@@ -13,10 +14,22 @@ import {
   Bars3Icon,
   ShoppingCartIcon,
   XMarkIcon,
+  HomeIcon,
+  CubeIcon,
+  UsersIcon,
+  ArchiveBoxIcon,
+  BuildingOfficeIcon,
+  UserGroupIcon,
+  PlusIcon,
+  ListBulletIcon,
+  RectangleGroupIcon,
+  UserPlusIcon
+  // ... any other Heroicons you're using directly in the navbar
 } from "@heroicons/react/24/outline";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import { ForwardRefExoticComponent, RefAttributes, SVGProps } from 'react'; // Import these types
 
 // Extend the session user type to include 'role'
 declare module "next-auth" {
@@ -28,48 +41,79 @@ declare module "next-auth" {
   }
 }
 
-const navigationConfig = [
+// === NEW TYPE DEFINITION FOR HEROICONS ===
+// This type describes what a Heroicon component (which is an SVG) expects as props
+type Heroicon = ForwardRefExoticComponent<Omit<SVGProps<SVGSVGElement>, "ref"> & {
+    title?: string | undefined;
+    titleId?: string | undefined;
+} & RefAttributes<SVGSVGElement>>;
+
+
+// === UPDATED INTERFACES FOR NAVIGATION ITEMS ===
+interface NavigationItem {
+  name: string;
+  href: string;
+  roles?: string[];
+  icon?: Heroicon; // Explicitly type the icon as a Heroicon component
+  subItems?: SubNavigationItem[];
+}
+
+interface SubNavigationItem {
+  name: string;
+  href: string;
+  roles?: string[];
+  icon?: Heroicon; // Explicitly type the icon for sub-items too
+}
+
+
+// Your navigation configuration (ensure you've added the `icon` property to each item/subItem)
+const navigationConfig: NavigationItem[] = [
   {
     name: "Home",
     href: "/",
-    roles: ["admin", "user"], // Roles permitidos
+    roles: ["admin", "user"],
+    icon: HomeIcon,
   },
   {
     name: "Productos",
     href: "/products",
     roles: ["admin", "user"],
+    icon: CubeIcon,
     subItems: [
-      { name: "Productos", href: "/products", roles: ["admin", "user"] },
-      { name: "Nuevo Producto", href: "/createProduct", roles: ["user", "admin"] }, // Solo admin
-      { name: "Carrito", href: "/carritoCompras", roles: ["admin", "user"] },
+      { name: "Productos", href: "/products", roles: ["admin", "user"], icon: ListBulletIcon },
+      { name: "Nuevo", href: "/createProduct", roles: ["user", "admin"], icon: RectangleGroupIcon },
+      { name: "Carrito", href: "/carritoCompras", roles: ["admin", "user"], icon: ShoppingCartIcon },
     ],
   },
-  { name: "Stock", href: "/stock", roles: ["admin", "user"] }, // Solo admin
+  { name: "Stock", href: "/stock", roles: ["admin", "user"], icon: ArchiveBoxIcon },
   {
     name: "Clientes",
     href: "/clientes",
     roles: ["admin", "user"],
+    icon: UsersIcon,
     subItems: [
-      { name: "Clientes", href: "/clientes", roles: ["admin", "user"] },
-      { name: "Nuevo Cliente", href: "/createClient", roles: ["admin", "user"] },
+      { name: "Clientes", href: "/clientes", roles: ["admin", "user"], icon: UserGroupIcon },
+      { name: "Nuevo", href: "/createClient", roles: ["admin", "user"], icon: UserPlusIcon },
     ],
   },
-    {
+  {
     name: "Adminstradores",
     href: "/admin",
     roles: ["admin"],
+    icon: BuildingOfficeIcon,
     subItems: [
-      { name: "admins", href: "/admin", roles: ["admin"] },
-      { name: "Nuevo admin", href: "/createAdmin", roles: ["admin"] },
+      { name: "admins", href: "/admin", roles: ["admin"], icon: UserGroupIcon },
+      { name: "Nuevo", href: "/createAdmin", roles: ["admin"], icon: UserPlusIcon },
     ],
   },
   {
     name: "Trabajadores",
     href: "/trabajadores",
     roles: ["admin"],
+    icon: UserGroupIcon,
     subItems: [
-      { name: "Trabajadores", href: "/trabajadores", roles: ["admin"] },
-      { name: "Nuevo Trabajador", href: "/registrer", roles: ["admin"] },
+      { name: "Trabajadores", href: "/trabajadores", roles: ["admin"], icon: ListBulletIcon },
+      { name: "Nuevo", href: "/registrer", roles: ["admin"], icon: UserPlusIcon },
     ],
   },
 ];
@@ -131,10 +175,10 @@ function Navbar() {
                       as="div"
                       key={item.name}
                       className="relative"
-                      // Solo mostrar el menú si el rol del usuario está permitido para el ítem principal
                       style={{ display: item.roles?.includes(userRole) ? "" : "none" }}
                     >
                       <MenuButton className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium flex items-center">
+                        {item.icon && <item.icon className="h-5 w-5 mr-2" aria-hidden="true" />}
                         {item.name}
                         <ChevronDownIcon
                           className={classNames("ml-1 h-5 w-5 flex-shrink-0")}
@@ -152,9 +196,10 @@ function Navbar() {
                                     href={subItem.href}
                                     className={classNames(
                                       active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                                      "block px-4 py-2 text-sm whitespace-nowrap"
+                                      "block px-4 py-2 text-sm whitespace-nowrap flex items-center"
                                     )}
                                   >
+                                    {subItem.icon && <subItem.icon className="h-4 w-4 mr-2" aria-hidden="true" />}
                                     {subItem.name}
                                   </Link>
                                 )}
@@ -169,10 +214,11 @@ function Navbar() {
                         key={item.name}
                         href={item.href}
                         className={classNames(
-                          "text-gray-300 hover:bg-blue-700 hover:text-blue",
-                          "rounded-md px-3 py-2 text-sm font-medium"
+                          "text-gray-300 hover:bg-blue-700 hover:text-white",
+                          "rounded-md px-3 py-2 text-sm font-medium flex items-center"
                         )}
                       >
+                        {item.icon && <item.icon className="h-5 w-5 mr-2" aria-hidden="true" />}
                         {item.name}
                       </Link>
                     )
@@ -237,8 +283,66 @@ function Navbar() {
         </div>
       </div>
 
-      {/* Navegación para móviles */}
-      
+      {/* Mobile Navigation Panel */}
+      <DisclosurePanel className="sm:hidden">
+        <div className="space-y-1 px-2 pb-3 pt-2">
+          {filteredNavigation.map((item) =>
+            item.subItems ? (
+              <Disclosure key={item.name} as="div">
+                {({ open }) => (
+                  <>
+                    <DisclosureButton className="flex w-full items-center justify-between rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
+                      <div className="flex items-center">
+                        {item.icon && <item.icon className="h-6 w-6 mr-3" aria-hidden="true" />}
+                        <span>{item.name}</span>
+                      </div>
+                      <ChevronDownIcon
+                        className={classNames(
+                          open ? "rotate-180 transform" : "",
+                          "ml-2 h-5 w-5"
+                        )}
+                      />
+                    </DisclosureButton>
+                    <DisclosurePanel className="mt-2 space-y-1 pl-4">
+                      {item.subItems?. // Optional chaining to prevent undefined error
+                        filter((subItem) => subItem.roles?.includes(userRole))
+                        .map((subItem) => (
+                          <DisclosureButton
+                            key={subItem.name}
+                            as={Link}
+                            href={subItem.href}
+                            className={classNames(
+                              "block rounded-md py-2 pl-3 pr-4 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 flex items-center"
+                            )}
+                          >
+                            {subItem.icon && <subItem.icon className="h-5 w-5 mr-2" aria-hidden="true" />}
+                            {subItem.name}
+                          </DisclosureButton>
+                        ))}
+                    </DisclosurePanel>
+                  </>
+                )}
+              </Disclosure>
+            ) : (
+              item.roles?.includes(userRole) && (
+                <DisclosureButton
+                  key={item.name}
+                  as={Link}
+                  href={item.href}
+                  className={classNames(
+                    "block rounded-md px-3 py-2 text-base font-medium",
+                    "text-gray-300 hover:bg-gray-700 hover:text-white",
+                    "flex items-center"
+                  )}
+                >
+                  {item.icon && <item.icon className="h-6 w-6 mr-3" aria-hidden="true" />}
+                  {item.name}
+                </DisclosureButton>
+              )
+            )
+          )}
+        </div>
+      </DisclosurePanel>
     </Disclosure>
   );
 }

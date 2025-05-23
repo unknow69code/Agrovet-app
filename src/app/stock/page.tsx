@@ -1,6 +1,5 @@
 "use client"
 import { useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
 import { enqueueSnackbar } from "notistack"
 
 export default function StockPage() {
@@ -66,7 +65,7 @@ export default function StockPage() {
   };
 
   if (loading) {
-    return <div>Cargando productos...</div>; 
+    return <div>Cargando stock...</div>; 
   }
 
   return (
