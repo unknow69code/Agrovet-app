@@ -14,7 +14,7 @@ export default async function ClientesPage() {
             <tr>
               <th className="px-4 py-3 text-left text-sm font-semibold text-white">#</th>
               <th className="px-4 py-3 text-left text-sm font-semibold text-white">Nombre</th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-white">Cédula</th>
+              <th className="px-4 py-3 text-left text-sm font-semibold text-white">Cedula</th>
               <th className="px-4 py-3 text-left text-sm font-semibold text-white">Teléfono</th>
               <th className="px-4 py-3 text-left text-sm font-semibold text-white">Dirección</th>
             </tr>

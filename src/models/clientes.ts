@@ -72,7 +72,7 @@ export async function findClienteByCedula(
     }
   } catch (error: any) {
     console.error(
-      "Error al buscar cliente por cédula en la base de datos:",
+      "Error al buscar cliente por cedula en la base de datos:",
       error.message
     );
     throw error;
