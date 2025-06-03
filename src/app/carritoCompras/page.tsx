@@ -34,7 +34,7 @@ function CarritoPage() {
                     <div className="space-y-6">
                         {cart.map((item) => (
                             <div
-                                key={item.id}
+                                key={item.id_producto }
                                 className="flex items-center justify-between border rounded-lg p-4 bg-white shadow-sm"
                             >
                                 <div className="flex items-center gap-4">

@@ -1,4 +1,4 @@
-import { updateStockAndPriceByName } from "@/models/producto";
+import { updateStockAndPriceByName, getProducts } from "@/models/producto";
 import { ResultSetHeader } from "mysql2";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -22,10 +22,9 @@ export async function PUT(req: NextRequest) {
 
     // Extraer el nombre del producto desde la URL
     const url = new URL(req.url);
-    // Suponiendo estructura: /api/products/name/[nombre]/stock
     const parts = url.pathname.split("/");
     const nombreIndex = parts.indexOf("name") + 1;
-    const nombreProducto = parts[nombreIndex];
+    const nombreProducto = decodeURIComponent(parts[nombreIndex]);
 
     if (!nombreProducto) {
       return NextResponse.json(
@@ -34,9 +33,27 @@ export async function PUT(req: NextRequest) {
       );
     }
 
+    // Obtener lista de productos
+    const products = await getProducts();
+    const producto = products.find(p => p.nombre === nombreProducto);
+    const stocksumando = producto.stock + Number(nuevoStock);
+
+    if ((nuevoStock) <= 0) {
+      return NextResponse.json({
+        error: `El stock no puede ser negativo. Stock actual: ${producto.stock}, Stock a sumar: ${nuevoStock}.`,
+      }, { status: 400
+      } )};
+
+    if (!producto) {
+      return NextResponse.json(
+        { error: `No se encontró ningún producto con el nombre '${nombreProducto}'.` },
+        { status: 404 }
+      );
+    }
+
     const result = (await updateStockAndPriceByName(
       nombreProducto,
-      Number(nuevoStock),
+      Number(stocksumando),
       parseFloat(nuevoPrecio)
     )) as unknown as ResultSetHeader;
 

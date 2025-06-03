@@ -77,11 +77,11 @@ export async function getProducts() {
     }
 }
 
-export async function updateStockAndPriceByName(nombre: string, nuevoStock: number, nuevoPrecio: number) {
+export async function updateStockAndPriceByName(nombre: string, stocksumando: number, nuevoPrecio: number) {
     try {
         const result = await queryDatabase(
-            "UPDATE productos SET stock = ?, precio_venta = ? WHERE nombre = ?",
-            [nuevoStock, nuevoPrecio, nombre]
+            "UPDATE productos SET stock = ?, precio_compra = ? WHERE nombre = ?",
+            [stocksumando, nuevoPrecio, nombre]
         );
         return result;
     } catch (error: any) {

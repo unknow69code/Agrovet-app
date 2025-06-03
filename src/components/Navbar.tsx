@@ -23,7 +23,8 @@ import {
   PlusIcon,
   ListBulletIcon,
   RectangleGroupIcon,
-  UserPlusIcon
+  UserPlusIcon,
+  PencilSquareIcon
   // ... any other Heroicons you're using directly in the navbar
 } from "@heroicons/react/24/outline";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
@@ -80,8 +81,17 @@ const navigationConfig: NavigationItem[] = [
     roles: ["admin", "user"],
     icon: CubeIcon,
     subItems: [
-      { name: "Productos", href: "/products", roles: ["admin", "user"], icon: ListBulletIcon },
       { name: "Nuevo", href: "/createProduct", roles: ["user", "admin"], icon: RectangleGroupIcon },
+      { name: "Editar", href: "/products_edit", roles: ["admin", "user"], icon: PencilSquareIcon },
+    ],
+  },
+    {
+    name: "Ventas",
+    href: "/ventas",
+    roles: ["admin", "user"],
+    icon: ShoppingCartIcon,
+    subItems: [
+      { name: "Nueva venta", href: "/products", roles: ["admin","user"], icon: ListBulletIcon },
       { name: "Carrito", href: "/carritoCompras", roles: ["admin", "user"], icon: ShoppingCartIcon },
     ],
   },
@@ -116,6 +126,7 @@ const navigationConfig: NavigationItem[] = [
       { name: "Nuevo", href: "/registrer", roles: ["admin"], icon: UserPlusIcon },
     ],
   },
+
 ];
 
 function classNames(...classes: string[]) {

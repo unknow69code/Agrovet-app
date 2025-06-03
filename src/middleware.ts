@@ -48,6 +48,7 @@ export const config = {
     "/dashboard",
     "/",
     "/createClient",
+    "/products_edit",
     "/createProduct",
     "/products",
     "/trabajadores",
