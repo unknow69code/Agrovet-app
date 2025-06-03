@@ -1,7 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { queryDatabase } from "@/libs/db";
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+// Corrected type for the second argument
+interface RouteParams {
+  params: {
+    id: string;
+  };
+}
+
+export async function DELETE(request: NextRequest, { params }: RouteParams) {
   const id = params.id;
 
   try {
@@ -13,7 +20,7 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
   }
 }
 
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, { params }: RouteParams) { // Apply the same corrected type here
   const id = params.id;
 
   try {
@@ -30,8 +37,8 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
     if (
       !nombre ||
       !descripcion ||
-      precio_venta == null ||
-      precio_compra == null ||
+      precio_venta == null || // Use loose equality for null/undefined check
+      precio_compra == null || // Use loose equality for null/undefined check
       !foto_url
     ) {
       return NextResponse.json({ error: "Faltan campos obligatorios" }, { status: 400 });
@@ -50,4 +57,3 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
     return NextResponse.json({ error: "Error al actualizar el producto" }, { status: 500 });
   }
 }
-
