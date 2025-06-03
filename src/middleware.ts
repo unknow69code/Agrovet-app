@@ -34,10 +34,6 @@ export async function middleware(req: NextRequest) {
   if (pathname === '/dashboard' || pathname === '/' || pathname === '/products' || pathname === '/carritoCompras' || pathname === '/clientes' || pathname === '/stock') {
     return NextResponse.next();
   }
-    // Rutas accesibles solo para usuarios
-  /*if ((pathname === '/createProduct' || pathname === '/createClient') && userRole !== 'user' && userRole !== 'admin') {
-    return NextResponse.redirect(new URL('/unauthorized', req.url));
-  }*/
 
   // Si la ruta no coincide con ninguna de las reglas específicas, permitir el acceso (esto puede ajustarse según tus necesidades)
   return NextResponse.next();
