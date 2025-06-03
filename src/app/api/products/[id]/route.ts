@@ -1,15 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { queryDatabase } from "@/libs/db";
 
-// Corrected type for the second argument
-interface RouteParams {
-  params: {
-    id: string;
-  };
-}
+// No 'RouteParams' interface here!
 
-export async function DELETE(request: NextRequest, { params }: RouteParams) {
-  const id = params.id;
+export async function DELETE(
+  request: NextRequest,
+  context: { params: { id: string } } // Use 'context' as the variable name for the second argument
+) {
+  const id = context.params.id; // Access id via context.params
 
   try {
     await queryDatabase("DELETE FROM productos WHERE id_producto = ?", [id]);
@@ -20,8 +18,11 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
   }
 }
 
-export async function PUT(request: NextRequest, { params }: RouteParams) { // Apply the same corrected type here
-  const id = params.id;
+export async function PUT(
+  request: NextRequest,
+  context: { params: { id: string } } // Use 'context' here too
+) {
+  const id = context.params.id; // Access id via context.params
 
   try {
     const body = await request.json();
@@ -37,8 +38,8 @@ export async function PUT(request: NextRequest, { params }: RouteParams) { // Ap
     if (
       !nombre ||
       !descripcion ||
-      precio_venta == null || // Use loose equality for null/undefined check
-      precio_compra == null || // Use loose equality for null/undefined check
+      precio_venta == null ||
+      precio_compra == null ||
       !foto_url
     ) {
       return NextResponse.json({ error: "Faltan campos obligatorios" }, { status: 400 });
