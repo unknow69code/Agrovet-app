@@ -3,9 +3,15 @@ import { queryDatabase } from "@/libs/db";
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } } // This is the standard, expected type for dynamic routes
 ) {
-  const id = params.id;
+  const url = new URL(request.url);
+  const parts = url.pathname.split("/");
+  // Assuming the ID is the last segment in the URL, e.g., /api/products/4
+  const id = decodeURIComponent(parts[parts.length - 1] || "");
+
+  if (!id) {
+    return NextResponse.json({ error: "ID de producto no proporcionado" }, { status: 400 });
+  }
 
   try {
     await queryDatabase("DELETE FROM productos WHERE id_producto = ?", [id]);
@@ -18,9 +24,15 @@ export async function DELETE(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } } // This is the standard, expected type for dynamic routes
 ) {
-  const id = params.id;
+  const url = new URL(request.url);
+  const parts = url.pathname.split("/");
+  // Assuming the ID is the last segment in the URL, e.g., /api/products/4
+  const id = decodeURIComponent(parts[parts.length - 1] || "");
+
+  if (!id) {
+    return NextResponse.json({ error: "ID de producto no proporcionado" }, { status: 400 });
+  }
 
   try {
     const body = await request.json();
