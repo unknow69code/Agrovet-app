@@ -39,7 +39,7 @@ function RegisterClient() {
           <img
             src="/veterinario.png"
             alt="AGROVET"
-            className="h-12 w-auto"
+            className="h-20 w-auto"
           />
           <h2 className="mt-6 text-center text-3xl font-bold text-gray-800">
           AGROVET Registro de clientes.

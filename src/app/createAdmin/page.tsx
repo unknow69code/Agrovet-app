@@ -38,7 +38,7 @@ function RegisterUser() {
           <img
             src="/veterinario.png"
             alt="Your Company"
-            className="h-12 w-auto"
+            className="h-20 w-auto"
           />
           <h2 className="mt-6 text-center text-3xl font-bold text-gray-800">
           AGROVET CREAR ADMINISTRADOR.

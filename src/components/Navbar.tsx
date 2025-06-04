@@ -17,10 +17,8 @@ import {
   HomeIcon,
   CubeIcon,
   UsersIcon,
-  ArchiveBoxIcon,
   BuildingOfficeIcon,
   UserGroupIcon,
-  PlusIcon,
   ListBulletIcon,
   RectangleGroupIcon,
   UserPlusIcon,
@@ -95,7 +93,6 @@ const navigationConfig: NavigationItem[] = [
       { name: "Carrito", href: "/carritoCompras", roles: ["admin", "user"], icon: ShoppingCartIcon },
     ],
   },
-  { name: "Stock", href: "/stock", roles: ["admin", "user"], icon: ArchiveBoxIcon },
   {
     name: "Clientes",
     href: "/clientes",

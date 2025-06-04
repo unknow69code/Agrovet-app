@@ -173,7 +173,7 @@ export default function HomePage() {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <Link
-            href="/products"
+            href="/products_edit"
             className="block bg-blue-500 hover:bg-blue-600 text-white rounded-md p-4 text-center font-semibold"
           >
             Gestionar Inventario

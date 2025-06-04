@@ -44,7 +44,12 @@ function ProductRegister() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 px-4 py-12">
       <div className="w-full max-w-2xl rounded-2xl bg-white p-10 shadow-lg">
-        <div className="mb-6 text-center">
+        <div className="flex flex-col mb-4 items-center">
+          <img
+            src="/veterinario.png"
+            alt="AGROVET"
+            className="h-20 w-auto"
+          />
           <h2 className="text-3xl font-bold text-gray-800">
             Registrar nuevo producto
           </h2>
