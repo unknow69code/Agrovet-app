@@ -77,6 +77,18 @@ export async function getProducts() {
     }
 }
 
+export async function getNameProducts(nombre: any) {
+    const query = "SELECT nombre FROM productos ORDER BY id_producto ASC";
+    try {
+        console.log("Consulta a ejecutar:", query);
+        const rows = await queryDatabase(query, []);
+        return rows;
+    } catch (error: any) {
+        console.error("Error al obtener los productos:", error.message);
+        throw new Error("Error al obtener los productos: " + error.message);
+    }
+}
+
 export async function updateStockAndPriceByName(nombre: string, stocksumando: number, nuevoPrecio: number) {
     try {
         const result = await queryDatabase(

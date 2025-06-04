@@ -1,19 +1,32 @@
 // src/app/api/productos/route.ts
 import { NextResponse } from "next/server";
-import { countProducts, createProduct, getProducts } from "@/models/producto";
+import { countProducts, createProduct, getProducts, getNameProducts } from "@/models/producto"; 
 
 export async function POST(req: Request) {
   const body = await req.json();
   const { nombre, descripcion, precio_compra, precio, stock, stock_minimo, fecha_vencimiento, lote, estado, foto_url } = body;
 
   try {
-    const nuevoProducto = await createProduct(nombre, descripcion, precio_compra, precio, stock, stock_minimo, fecha_vencimiento, lote, estado, foto_url);
-    if (precio_compra < 0 || precio < 0 || stock < 0 || lote < 0 ) {
-      return NextResponse.json({ ok: false, message: "Los campos numericos deben de ser positivos." }, { status: 400 });
+    const existingProduct = await getNameProducts(nombre);
+    if (existingProduct.length == nombre) { 
+      return NextResponse.json({ ok: false, message: "Ya existe un producto con este nombre." }, { status: 409 }); // 409 Conflict
     }
+
+    if (!nombre || !descripcion || precio_compra == null || precio == null || stock == null || stock_minimo == null || !fecha_vencimiento || lote == null || estado == null || !foto_url) {
+      return NextResponse.json({ ok: false, message: "Faltan campos obligatorios" }, { status: 400 });
+    }
+
+    // Validate numeric fields are positive
+    if (precio_compra < 0 || precio < 0 || stock < 0 || lote < 0) {
+      return NextResponse.json({ ok: false, message: "Los campos numéricos deben de ser positivos." }, { status: 400 });
+    }
+
+    const nuevoProducto = await createProduct(nombre, descripcion, precio_compra, precio, stock, stock_minimo, fecha_vencimiento, lote, estado, foto_url);
+    
     return NextResponse.json(nuevoProducto, { status: 201 });
   } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error("Error al crear producto:", error); // Log the actual error for debugging
+    return NextResponse.json({ error: error.message || "Error interno del servidor." }, { status: 500 });
   }
 }
 
