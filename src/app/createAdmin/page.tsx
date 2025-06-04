@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 function RegisterUser() {
 
   const { enqueueSnackbar } = useSnackbar();
+  const router = useRouter();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -21,7 +22,7 @@ function RegisterUser() {
       });
       console.log(SignupResponse.data);
       enqueueSnackbar('Usuario registrado exitosamente.', { variant: 'success', });
-      return useRouter().push("/admin");
+      return router.push("/admin");
     } catch (error) {
       console.log("Error:", error);
       if (error instanceof AxiosError) {

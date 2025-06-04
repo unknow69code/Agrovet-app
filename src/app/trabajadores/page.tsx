@@ -1,9 +1,18 @@
-import { queryDatabase } from "@/libs/db";
-import { findUserdate } from "@/models/users";
+import { getWorkers } from "@/models/users";
+export const dynamic = 'force-dynamic'; 
+
+interface Typesworkes {
+  id: number;
+  nombre: string;
+  correo: string;
+  cedula: string;
+  telefono: string;
+  direccion: string;
+}
 
 export default async function TrabajadoresPage() {
   // Espera la resolución de la promesa devuelta por findUserdate()
-  const Trabajadores = await findUserdate();
+  const Trabajadores: Typesworkes[]  = await getWorkers();
 
   return (
     <main className="min-h-screen bg-gray-100 p-8">

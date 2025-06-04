@@ -1,9 +1,7 @@
 import { getAdmins } from "@/models/admin"; // Import the getAdmins function
 
-// Add this line to ensure the page always fetches fresh data in production
 export const dynamic = 'force-dynamic'; 
 
-// Define the AdminType interface for clarity and type safety
 type AdminType = {
   id: number;
   nombre: string;

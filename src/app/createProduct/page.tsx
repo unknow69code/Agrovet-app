@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 
 function ProductRegister() {
   const { enqueueSnackbar } = useSnackbar();
+  const router = useRouter();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -27,7 +28,7 @@ function ProductRegister() {
 
       enqueueSnackbar("Producto creado correctamente.", { variant: "success" });
       e.currentTarget.reset();
-      return useRouter().push("/products_edit");
+      return router.push("/products_edit");
     } catch (error) {
       if (error instanceof AxiosError) {
         enqueueSnackbar(

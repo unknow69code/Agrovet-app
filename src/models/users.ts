@@ -39,24 +39,15 @@ export function removePassword(trabajadores: any) {
   return userWithoutPassword;
 }
 
-interface TrabajadorBasico {
-  id: number;
-  nombre: string;
-  correo: string;
-  cedula: string;
-  telefono: string;
-  direccion: string;
-}
 
-export async function findUserdate(): Promise<TrabajadorBasico[]> {
-  try {
-    const resp = await queryDatabase(
-      "SELECT id, nombre, correo, cedula, telefono, direccion FROM trabajadores",
-      []
-    ) as TrabajadorBasico[];
-    return resp;
-  } catch (error: any) {
-    console.error("Error al obtener los trabajadores:", error.message);
-    throw new Error(`Error al obtener los trabajadores: ${error.message}`);
-  }
+export async function getWorkers() {
+    const query = "SELECT * FROM trabajadores ORDER BY id ASC";
+    try {
+        console.log("Consulta a ejecutar:", query);
+        const rows = await queryDatabase(query, []);
+        return rows;
+    } catch (error: any) {
+        console.error("Error al obtener los trabajadores:", error.message);
+        throw new Error("Error al obtener los trabajadores: " + error.message);
+    }
 }

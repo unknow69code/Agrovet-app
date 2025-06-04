@@ -1,8 +1,17 @@
-import { queryDatabase } from "@/libs/db";
-import { findClientdate } from "@/models/clientes";
+import { getClients } from "@/models/clientes";
+
+export const dynamic = 'force-dynamic'; 
+
+type ClienType = {
+  id: number;
+  nombre: string;
+  cedula: string;
+  telefono: string;
+  direccion: string;
+};
 
 export default async function ClientesPage() {
-  const clientes = await findClientdate();
+  const clientes: ClienType[] = await getClients();
 
   return (
     <main className="min-h-screen bg-gray-100 p-8">

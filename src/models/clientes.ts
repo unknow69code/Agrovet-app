@@ -37,17 +37,16 @@ interface Clientes {
   direccion: string;
 }
 
-export async function findClientdate(): Promise<Clientes[]> {
-  try {
-    const resp = (await queryDatabase(
-      "SELECT id, nombre, cedula, telefono, direccion FROM cliente",
-      []
-    )) as Clientes[];
-    return resp;
-  } catch (error: any) {
-    console.error("Error al obtener los clientes:", error.message);
-    throw new Error(`Error al obtener los clientes: ${error.message}`);
-  }
+export async function getClients() {
+    const query = "SELECT * FROM cliente ORDER BY id ASC";
+    try {
+        console.log("Consulta a ejecutar:", query);
+        const rows = await queryDatabase(query, []);
+        return rows;
+    } catch (error: any) {
+        console.error("Error al obtener los clientes:", error.message);
+        throw new Error("Error al obtener los clientes: " + error.message);
+    }
 }
 
 interface Cliente {
