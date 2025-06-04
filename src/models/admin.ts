@@ -34,3 +34,15 @@ export async function findAdminByEmail(correo: string) {
   );
   return admin;
 }
+
+export async function getAdmins() {
+    const query = "SELECT * FROM admin ORDER BY id ASC";
+    try {
+        console.log("Consulta a ejecutar:", query);
+        const rows = await queryDatabase(query, []);
+        return rows;
+    } catch (error: any) {
+        console.error("Error al obtener los productos:", error.message);
+        throw new Error("Error al obtener los productos: " + error.message);
+    }
+}

@@ -1,5 +1,9 @@
-import { queryDatabase } from "@/libs/db";
+import { getAdmins } from "@/models/admin"; // Import the getAdmins function
 
+// Add this line to ensure the page always fetches fresh data in production
+export const dynamic = 'force-dynamic'; 
+
+// Define the AdminType interface for clarity and type safety
 type AdminType = {
   id: number;
   nombre: string;
@@ -7,7 +11,9 @@ type AdminType = {
 };
 
 async function Admin() {
-  const admin = await queryDatabase("SELECT * FROM admin ORDER BY id ASC", []) as AdminType[];
+  // Call getAdmins to fetch the data
+  // Assuming getAdmins returns AdminType[] directly or needs casting
+  const admin: AdminType[] = await getAdmins(); 
 
   return (
     <main className="min-h-screen bg-gray-100 p-8">
@@ -23,11 +29,11 @@ async function Admin() {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
-            {admin.map((admin: AdminType) => (
-              <tr key={admin.id} className="hover:bg-gray-50">
-                <td className="px-4 py-2 text-sm">{admin.id}</td>
-                <td className="px-4 py-2 text-sm">{admin.nombre}</td>
-                <td className="px-4 py-2 text-sm">{admin.correo}</td>
+            {admin.map((adminItem: AdminType) => ( // Changed variable name to adminItem to avoid confusion with the component name
+              <tr key={adminItem.id} className="hover:bg-gray-50">
+                <td className="px-4 py-2 text-sm">{adminItem.id}</td>
+                <td className="px-4 py-2 text-sm">{adminItem.nombre}</td>
+                <td className="px-4 py-2 text-sm">{adminItem.correo}</td>
               </tr>
             ))}
           </tbody>
