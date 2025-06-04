@@ -2,6 +2,7 @@
 import axios, { AxiosError } from "axios";
 import { FormEvent } from "react";
 import { useSnackbar } from "notistack";
+import { useRouter } from "next/navigation";
 
 function RegisterUser() {
 
@@ -19,9 +20,8 @@ function RegisterUser() {
         password: formData.get("password"),
       });
       console.log(SignupResponse.data);
-
       enqueueSnackbar('Usuario registrado exitosamente.', { variant: 'success', });
-      
+      return useRouter().push("/admin");
     } catch (error) {
       console.log("Error:", error);
       if (error instanceof AxiosError) {

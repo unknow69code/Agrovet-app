@@ -2,6 +2,7 @@
 import axios, { AxiosError } from "axios";
 import { FormEvent } from "react";
 import { useSnackbar } from "notistack";
+import { useRouter } from "next/navigation";
 
 function ProductRegister() {
   const { enqueueSnackbar } = useSnackbar();
@@ -26,6 +27,7 @@ function ProductRegister() {
 
       enqueueSnackbar("Producto creado correctamente.", { variant: "success" });
       e.currentTarget.reset();
+      return useRouter().push("/products_edit");
     } catch (error) {
       if (error instanceof AxiosError) {
         enqueueSnackbar(

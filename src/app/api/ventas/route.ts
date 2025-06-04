@@ -3,6 +3,7 @@ import { guardarVenta } from "@/models/factura";
 import { jsPDF } from "jspdf";
 import fs from 'fs/promises';
 import path from 'path';
+export const dynamic = 'force-dynamic'; 
 
 // Información de la empresa
 const nombreAplicacion = "AGROVET SISTEMA DE MANEJO DE VENTAS Y STOCK";

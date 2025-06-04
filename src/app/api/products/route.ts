@@ -1,6 +1,7 @@
 // src/app/api/productos/route.ts
 import { NextResponse } from "next/server";
 import { countProducts, createProduct, getProducts, getNameProducts } from "@/models/producto"; 
+export const dynamic = 'force-dynamic'; 
 
 export async function POST(req: Request) {
   const body = await req.json();

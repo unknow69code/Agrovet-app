@@ -2,6 +2,7 @@
 import axios, { AxiosError } from "axios";
 import { FormEvent } from "react";
 import { useSnackbar } from "notistack";
+import { useRouter } from "next/navigation";
 
 function RegisterClient() {
 
@@ -21,7 +22,7 @@ function RegisterClient() {
       });
       console.log(SignupResponse.data);
       enqueueSnackbar('Cliente registrado exitosamente.', { variant: 'success', });
-      
+      return useRouter().push('/clientes');
     } catch (error) {
       console.log("Error:", error);
       if (error instanceof AxiosError) {
