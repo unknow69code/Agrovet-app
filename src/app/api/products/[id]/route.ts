@@ -1,13 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { queryDatabase } from "@/libs/db";
 
-// No 'RouteParams' interface here!
-
 export async function DELETE(
   request: NextRequest,
-  context: { params: { id: string } } // Use 'context' as the variable name for the second argument
+  { params }: { params: { id: string } } // This is the standard, expected type for dynamic routes
 ) {
-  const id = context.params.id; // Access id via context.params
+  const id = params.id;
 
   try {
     await queryDatabase("DELETE FROM productos WHERE id_producto = ?", [id]);
@@ -20,9 +18,9 @@ export async function DELETE(
 
 export async function PUT(
   request: NextRequest,
-  context: { params: { id: string } } // Use 'context' here too
+  { params }: { params: { id: string } } // This is the standard, expected type for dynamic routes
 ) {
-  const id = context.params.id; // Access id via context.params
+  const id = params.id;
 
   try {
     const body = await request.json();
@@ -46,8 +44,8 @@ export async function PUT(
     }
 
     await queryDatabase(
-      `UPDATE productos 
-       SET nombre = ?, descripcion = ?, precio_venta = ?, precio_compra = ?, foto_url = ? 
+      `UPDATE productos
+       SET nombre = ?, descripcion = ?, precio_venta = ?, precio_compra = ?, foto_url = ?
        WHERE id_producto = ?`,
       [nombre, descripcion, precio_venta, precio_compra, foto_url, id]
     );
