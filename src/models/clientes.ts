@@ -77,3 +77,15 @@ export async function findClienteByCedula(
     throw error;
   }
 }
+
+export async function countClientes() {
+    const countClientes = "SELECT COUNT(*) AS total FROM cliente";
+    try {
+        console.log("Consulta a ejecutar:", countClientes);
+        const rows = await queryDatabase(countClientes, []);
+        return rows;
+    } catch (error: any) {
+        console.error("Error al obtener los productos:", error.message);
+        throw new Error("Error al obtener los productos: " + error.message);
+    }
+}

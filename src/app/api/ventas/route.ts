@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { guardarVenta } from "@/models/factura";
+import { guardarVenta, countVentas, getventas } from "@/models/factura";
 import { jsPDF } from "jspdf";
 import fs from 'fs/promises';
 import path from 'path';
@@ -143,5 +143,16 @@ export async function POST(req: Request) {
     } catch (error: any) {
         console.error("Error al procesar el registro de la venta:", error.message);
         return NextResponse.json({ error: "Error al registrar la venta." }, { status: 500 });
+    }
+}
+
+export async function GET() {
+    try {
+        const rows = await countVentas();
+        const totalVentas = rows.length > 0 ? rows[0].total : 0;
+        return NextResponse.json({ count: totalVentas }, { status: 200 });
+    } catch (error: any) {
+        console.error("Error al obtener el conteo de ventas:", error.message);
+        return NextResponse.json({ error: "Error al obtener el conteo de ventas." }, { status: 500 });
     }
 }

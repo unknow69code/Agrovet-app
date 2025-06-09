@@ -109,7 +109,7 @@ function GenerarFacturaPage() {
             <div className="space-y-4">
               {cart.map((item) => (
                 <div
-                  key={item.id}
+                  key={item.id_producto}
                   className="flex items-center justify-between border-b py-2"
                 >
                   <div className="flex items-center gap-2">

@@ -1,13 +1,14 @@
 "use client";
 
+import { ArchiveBoxIcon, BuildingStorefrontIcon, IdentificationIcon, ShoppingBagIcon, UsersIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function HomePage() {
-  const [totalProductos, setTotalProductos] = useState(0);
-  const [productosBajoStock, setProductosBajoStock] = useState(0);
-  const [totalClientes, setTotalClientes] = useState(0);
-  const [totalProveedores, setTotalProveedores] = useState(0);
+  const [totalProductos, setTotalProductos] = useState();
+  const [productosBajoStock, setProductosBajoStock] = useState();
+  const [totalClientes, setTotalClientes] = useState();
+  const [totalProveedores, setTotalProveedores] = useState();
 
   useEffect(() => {
     //llamadas a la API para obtener datos//
@@ -15,17 +16,18 @@ export default function HomePage() {
       try {
         const productosRes = await fetch("/api/products?count=true"); // Endpoint para obtener el total
         const productosData = await productosRes.json();
+        console.log("Total de productos:", productosData);
         setTotalProductos(productosData.count || 0);
 
-        const bajoStockRes = await fetch("/api/products"); // Reemplaza con tu endpoint real
+        const bajoStockRes = await fetch("/api/ventas?count=true"); // Reemplaza con tu endpoint real
         const bajoStockData = await bajoStockRes.json();
         setProductosBajoStock(bajoStockData.count || 0);
 
-        const clientesRes = await fetch("/api/products"); // Reemplaza con tu endpoint real
+        const clientesRes = await fetch("/api/clients"); // Reemplaza con tu endpoint real
         const clientesData = await clientesRes.json();
         setTotalClientes(clientesData.count || 0);
 
-        const proveedoresRes = await fetch("/api/products"); // Reemplaza con tu endpoint real
+        const proveedoresRes = await fetch("/api/trabajadores"); // Reemplaza con tu endpoint real
         const proveedoresData = await proveedoresRes.json();
         setTotalProveedores(proveedoresData.count || 0);
       } catch (error) {
@@ -61,21 +63,7 @@ export default function HomePage() {
             </p>
           </div>
           <div className="text-green-600">
-            {/* Puedes agregar un icono aquí */}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-8 h-8"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M2.25 12l8.954-8.955c.226-.227.586-.227.812 0L21.75 12M4.5 9h15M4.5 15h15"
-              />
-            </svg>
+            <ArchiveBoxIcon className="h-10 w-10 text-green-500" />
           </div>
         </div>
 
@@ -83,28 +71,14 @@ export default function HomePage() {
         <div className="bg-white rounded-lg shadow-md p-6 flex items-center justify-between">
           <div>
             <h3 className="text-lg font-semibold text-blue-700">
-              Productos Bajo Stock
+              Total Ventas
             </h3>
             <p className="text-2xl font-bold text-orange-600 mt-2">
               {productosBajoStock}
             </p>
           </div>
           <div className="text-orange-600">
-            {/* Puedes agregar un icono aquí */}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-8 h-8"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 21a9.004 9.004 0 008.716-4.037m-7.5 2.104a3 3 0 01-3-3 3 3 0 013-3m7.5 2.104a9.004 9.004 0 01-8.716-4.037m3 6.141a3 3 0 01-3-3 3 3 0 013-3"
-              />
-            </svg>
+            <ShoppingBagIcon className="h-10 w-10 text-orange-500" />
           </div>
         </div>
 
@@ -119,21 +93,7 @@ export default function HomePage() {
             </p>
           </div>
           <div className="text-blue-600">
-            {/* Puedes agregar un icono aquí */}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-8 h-8"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.125h15.002M4.501 20.125a.75.75 0 01-.628-.822l-1.992-5.86a.75.75 0 01.578-.938l4.187-1.551c.288-.107.593.074.593.4a3.75 3.75 0 01-3.247 6.347l-1.799 5.297a.75.75 0 01-.215.08zM19.5 21c.375 0 .75-.225.75-.75v-3.75a.75.75 0 00-.225-.53l-2.625-1.05a.75.75 0 00-.563.41l.921 2.75a.75.75 0 01.121.724l2.95-1.2c.227-.093.465.078.465.374v3.805a.75.75 0 01-.75.75h-2.25a.75.75 0 01-.75-.75v-.937a.75.75 0 00-.224-.53l-2.625-1.05a.75.75 0 00-.563.41l.921 2.75a.75.75 0 01.121.724l2.95-1.2c.227-.093.465.078.465.374v3.805a.75.75 0 01-.75.75H19.5z"
-              />
-            </svg>
+           <UsersIcon className="h-10 w-10 text-blue-500" />
           </div>
         </div>
 
@@ -141,28 +101,14 @@ export default function HomePage() {
         <div className="bg-white rounded-lg shadow-md p-6 flex items-center justify-between">
           <div>
             <h3 className="text-lg font-semibold text-blue-700">
-              Total de Proveedores
+              Total de trabajadores
             </h3>
             <p className="text-2xl font-bold text-purple-600 mt-2">
               {totalProveedores}
             </p>
           </div>
           <div className="text-purple-600">
-            {/* Puedes agregar un icono aquí */}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-8 h-8"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M18 21l-5.25-5.25M18 21l3-3M15 18l3-3M12 15l3-3M12 15l-5.25-5.25M15 12H3m15 0h-2.586a1.5 1.5 0 01-1.06-.44l-6.586-3.29a1.5 1.5 0 00-1.06-.44H3"
-              />
-            </svg>
+            <IdentificationIcon className="h-10 w-10 text-purple-500" />
           </div>
         </div>
       </section>

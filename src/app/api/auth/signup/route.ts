@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createUser, findUserByEmail } from "@/models/users";
+import { countWorkers, createUser, findUserByEmail } from "@/models/users";
 
 export async function POST(request: Request) {
   const { nombre, cedula, telefono, direccion, correo, password } =

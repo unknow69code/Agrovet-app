@@ -29,6 +29,7 @@ import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { ForwardRefExoticComponent, RefAttributes, SVGProps } from 'react'; // Import these types
+import { TbChartHistogram } from "react-icons/tb";
 
 // Extend the session user type to include 'role'
 declare module "next-auth" {
@@ -40,12 +41,16 @@ declare module "next-auth" {
   }
 }
 
-// === NEW TYPE DEFINITION FOR HEROICONS ===
-// This type describes what a Heroicon component (which is an SVG) expects as props
-type Heroicon = ForwardRefExoticComponent<Omit<SVGProps<SVGSVGElement>, "ref"> & {
-    title?: string | undefined;
-    titleId?: string | undefined;
-} & RefAttributes<SVGSVGElement>>;
+// === NEW TYPE DEFINITION FOR ICONS ===
+// This type allows both Heroicons and react-icons components as icons
+import { IconType } from "react-icons";
+
+type NavbarIcon =
+  | ForwardRefExoticComponent<Omit<SVGProps<SVGSVGElement>, "ref"> & {
+      title?: string | undefined;
+      titleId?: string | undefined;
+    } & RefAttributes<SVGSVGElement>>
+  | IconType;
 
 
 // === UPDATED INTERFACES FOR NAVIGATION ITEMS ===
@@ -53,7 +58,7 @@ interface NavigationItem {
   name: string;
   href: string;
   roles?: string[];
-  icon?: Heroicon; // Explicitly type the icon as a Heroicon component
+  icon?: NavbarIcon; // Accept both Heroicons and react-icons
   subItems?: SubNavigationItem[];
 }
 
@@ -61,7 +66,7 @@ interface SubNavigationItem {
   name: string;
   href: string;
   roles?: string[];
-  icon?: Heroicon; // Explicitly type the icon for sub-items too
+  icon?: NavbarIcon; // Accept both Heroicons and react-icons
 }
 
 
@@ -91,6 +96,7 @@ const navigationConfig: NavigationItem[] = [
     subItems: [
       { name: "Nueva venta", href: "/products", roles: ["admin","user"], icon: ListBulletIcon },
       { name: "Carrito", href: "/carritoCompras", roles: ["admin", "user"], icon: ShoppingCartIcon },
+      { name: "Historial", href: "/historialventa", roles: ["admin", "user"], icon: TbChartHistogram },
     ],
   },
   {

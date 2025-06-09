@@ -11,7 +11,6 @@ type ProductType = {
   stock: number;
   precio_venta: number;
   foto_url: string;
-  // Add a quantity property for the input value in the UI
   quantity: number;
 };
 
@@ -82,6 +81,10 @@ function Products() {
     }
     if (quantityToAdd > productToAdd.stock) {
         enqueueSnackbar(`No hay suficiente stock para "${productToAdd.nombre}". Stock disponible: ${productToAdd.stock}`, { variant: "warning" });
+        return;
+    }
+     if (productToAdd.stock <= 1) {
+        enqueueSnackbar(`Recuerda que tu stock ya es menor o igual a 5 para que compres mas producto.`, { variant: "warning" });
         return;
     }
 

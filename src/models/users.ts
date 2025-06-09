@@ -39,9 +39,20 @@ export function removePassword(trabajadores: any) {
   return userWithoutPassword;
 }
 
-
 export async function getWorkers() {
-    const query = "SELECT * FROM trabajadores ORDER BY id ASC";
+    const query = "SELECT * FROM trabajadores ORDER BY id DESC";
+    try {
+        console.log("Consulta a ejecutar:", query);
+        const rows = await queryDatabase(query, []);
+        return rows;
+    } catch (error: any) {
+        console.error("Error al obtener los trabajadores:", error.message);
+        throw new Error("Error al obtener los trabajadores: " + error.message);
+    }
+}
+
+export async function countWorkers() {
+    const query = "SELECT COUNT(*) AS total FROM trabajadores";
     try {
         console.log("Consulta a ejecutar:", query);
         const rows = await queryDatabase(query, []);
