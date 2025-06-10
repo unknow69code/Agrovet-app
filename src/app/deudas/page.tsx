@@ -1,10 +1,9 @@
-// components/deudas/ListaDeudas.tsx
+// src/app/deudas/page.tsx
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
 import { enqueueSnackbar } from "notistack";
-// Ajusta la ruta de importación según dónde esté tu archivo RegistrarPagoDeuda.tsx
-import RegistrarPagoDeuda from '../../components/deudas/registrar_pago';
+import RegistrarPagoDeuda from '../../components/deudas/registrar_pago'; // Asumiendo que esta ruta es correcta
 import { CreditCardIcon } from "@heroicons/react/24/outline";
 
 // Definición de tipos para una deuda (ajusta según tu tabla 'deudas')
@@ -20,11 +19,11 @@ interface Deuda {
     estado: "pendiente" | "pagada" | "vencida";
 }
 
-interface ListaDeudasProps {
-    id_cliente?: number; // Opcional: si quieres mostrar deudas de un cliente específico
-}
-
-function ListaDeudas({ id_cliente }: ListaDeudasProps) {
+// CAMBIO CRUCIAL:
+// La exportación por defecto de una page.tsx NO debe esperar props como `ListaDeudasProps`
+// Si necesitas acceder a parámetros de URL, usarías `({ searchParams }: { searchParams: { id_cliente?: string } })`
+// Pero como no necesitas id_cliente, la dejamos sin parámetros.
+export default function DeudasPage() { // Antes era 'ListaDeudas({ id_cliente }: ListaDeudasProps)'
     // Estado para TODAS las deudas (la copia original)
     const [allDeudas, setAllDeudas] = useState<Deuda[]>([]);
     // Estado para las deudas filtradas que se muestran en la tabla
@@ -39,6 +38,8 @@ function ListaDeudas({ id_cliente }: ListaDeudasProps) {
     const [selectedDeudaMontoPendiente, setSelectedDeudaMontoPendiente] = useState<number>(0);
 
     // Función para cargar las deudas (ahora solo se llama una vez o cuando cambia id_cliente)
+    // NOTA: 'id_cliente' ya no es una prop de esta función, pero si la necesitaras internamente,
+    // la obtendrías de la URL o de otro contexto. Para este caso, la quitamos de las dependencias.
     const fetchAllDeudas = useCallback(async () => {
         setLoading(true);
         setError(null);
@@ -46,10 +47,13 @@ function ListaDeudas({ id_cliente }: ListaDeudasProps) {
             let url = "/api/deudas/listar";
             const params = new URLSearchParams();
 
-            if (id_cliente) {
-                params.append('id_cliente', id_cliente.toString());
-            }
-            // NOTA: Ya no enviamos filterCedula en esta petición inicial
+            // Si id_cliente NO ES una prop de la página, NO intentes acceder a ella aquí.
+            // Si en el futuro necesitas filtrar por un id_cliente específico (ej. desde un contexto de usuario logeado),
+            // lo traerías de ese contexto. Para este ejemplo, eliminamos la dependencia a `id_cliente` en el URLSearchParams
+            // ya que la página de por sí no lo recibe.
+            // if (id_cliente) { // ESTA LÍNEA SE ELIMINA O MODIFICA SI 'id_cliente' NO ES UNA PROP
+            //     params.append('id_cliente', id_cliente.toString());
+            // }
 
             if (params.toString()) {
                 url += `?${params.toString()}`;
@@ -80,9 +84,9 @@ function ListaDeudas({ id_cliente }: ListaDeudasProps) {
         } finally {
             setLoading(false);
         }
-    }, [id_cliente]); // Dependencia: id_cliente para recargar si cambia
+    }, []); // Dependencias: ahora vacía, ya que 'id_cliente' no es una prop de la página
 
-    // useEffect para cargar todas las deudas al inicio (o si id_cliente cambia)
+    // useEffect para cargar todas las deudas al inicio
     useEffect(() => {
         fetchAllDeudas();
     }, [fetchAllDeudas]); // fetchAllDeudas es la dependencia porque está envuelta en useCallback
@@ -139,9 +143,9 @@ function ListaDeudas({ id_cliente }: ListaDeudasProps) {
         <div className="overflow-x-auto bg-white shadow-md rounded-lg p-6">
             <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center">
                 Lista de Deudas Clientes
-                {/* Ensure ArchiveBoxIcon is imported from @heroicons/react */}
                 <CreditCardIcon className="h-10 w-10 text-blue-500 ml-2" />
-            </h2>          {/* Campo de búsqueda de cédula */}
+            </h2>
+            {/* Campo de búsqueda de cédula */}
             <div className="mb-8 flex justify-center">
                 <input
                     type="text"
@@ -164,34 +168,34 @@ function ListaDeudas({ id_cliente }: ListaDeudasProps) {
                 <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-blue-500 text-white">
                         <tr>
-                            <th className="px-6 py-3 text-left text-xs font-medium  tracking-wider">
+                            <th className="px-6 py-3 text-left text-xs font-medium tracking-wider">
                                 ID Deuda
                             </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium  tracking-wider">
+                            <th className="px-6 py-3 text-left text-xs font-medium tracking-wider">
                                 ID Cliente
                             </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium  tracking-wider">
+                            <th className="px-6 py-3 text-left text-xs font-medium tracking-wider">
                                 Cédula Cliente
                             </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium  tracking-wider">
+                            <th className="px-6 py-3 text-left text-xs font-medium tracking-wider">
                                 Monto Total
                             </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium  tracking-wider">
+                            <th className="px-6 py-3 text-left text-xs font-medium tracking-wider">
                                 Monto Pendiente
                             </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium  tracking-wider">
+                            <th className="px-6 py-3 text-left text-xs font-medium tracking-wider">
                                 Fecha Deuda
                             </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium  tracking-wider">
+                            <th className="px-6 py-3 text-left text-xs font-medium tracking-wider">
                                 Fecha Vencimiento
                             </th>
                             <th className="px-6 py-3 text-left text-xs font-medium tracking-wider">
                                 Descripción
                             </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium  tracking-wider">
+                            <th className="px-6 py-3 text-left text-xs font-medium tracking-wider">
                                 Estado
                             </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium  tracking-wider">
+                            <th className="px-6 py-3 text-left text-xs font-medium tracking-wider">
                                 Acciones
                             </th>
                         </tr>
@@ -267,5 +271,3 @@ function ListaDeudas({ id_cliente }: ListaDeudasProps) {
         </div>
     );
 }
-
-export default ListaDeudas;
