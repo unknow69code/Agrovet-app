@@ -22,7 +22,10 @@ import {
   ListBulletIcon,
   RectangleGroupIcon,
   UserPlusIcon,
-  PencilSquareIcon
+  PencilSquareIcon,
+  QueueListIcon,
+  RectangleStackIcon,
+  CreditCardIcon
   // ... any other Heroicons you're using directly in the navbar
 } from "@heroicons/react/24/outline";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
@@ -100,12 +103,22 @@ const navigationConfig: NavigationItem[] = [
     ],
   },
   {
+    name: "Deudas",
+    href: "/deudas",
+    roles: ["admin", "user"],
+    icon: CreditCardIcon,
+    subItems: [
+      { name: "Lista", href: "/deudas", roles: ["admin", "user"], icon: QueueListIcon },
+      { name: "Pagos", href: "/registropagos", roles: ["admin", "user"], icon: RectangleStackIcon },
+    ],
+  },
+  {
     name: "Clientes",
     href: "/clientes",
     roles: ["admin", "user"],
-    icon: UsersIcon,
+    icon: UserGroupIcon,
     subItems: [
-      { name: "Clientes", href: "/clientes", roles: ["admin", "user"], icon: UserGroupIcon },
+      { name: "Lista", href: "/clientes", roles: ["admin", "user"], icon: UsersIcon },
       { name: "Nuevo", href: "/createClient", roles: ["admin", "user"], icon: UserPlusIcon },
     ],
   },
@@ -164,7 +177,7 @@ function Navbar() {
           {/* Botón de menú para móviles */}
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
             <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:ring-2 focus:ring-white focus:outline-hidden focus:ring-inset">
-              <span className="sr-only">Open main menu</span>
+              <span className="sr-only">Abrir menu</span>
               <Bars3Icon
                 aria-hidden="true"
                 className="block size-6 group-data-open:hidden"
@@ -265,18 +278,10 @@ function Navbar() {
               <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-hidden">
                 <MenuItem>
                   <Link
-                    href="/profile"
+                    href="/userprofile"
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                   >
                     Tu perfil
-                  </Link>
-                </MenuItem>
-                <MenuItem>
-                  <Link
-                    href="/settings"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                  >
-                    Configuración
                   </Link>
                 </MenuItem>
                 <MenuItem>

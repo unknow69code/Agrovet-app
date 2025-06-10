@@ -42,6 +42,9 @@ export async function middleware(req: NextRequest) {
 export const config = {
   matcher: [
     "/dashboard",
+    "/registropagos",
+    "/deudas",
+    "/historialventa",
     "/",
     "/createClient",
     "/products_edit",

@@ -131,10 +131,10 @@ export default function HomePage() {
             Gestionar Clientes
           </Link>
           <Link
-            href="/provedores"
+            href="/deudas"
             className="block bg-purple-500 hover:bg-purple-600 text-white rounded-md p-4 text-center font-semibold"
           >
-            Gestionar Provedores
+            Gestionar Deudas
           </Link>
           <Link
             href="/createProduct"
@@ -159,6 +159,18 @@ export default function HomePage() {
             className="block bg-indigo-500 hover:bg-indigo-600 text-white rounded-md p-4 text-center font-semibold"
           >
             Nuevo Trabajador
+          </Link>
+          <Link
+            href="/registrer"
+            className="block bg-indigo-500 hover:bg-indigo-600 text-white rounded-md p-4 text-center font-semibold"
+          >
+           Historial de Deudas
+          </Link>
+          <Link
+            href="/registrer"
+            className="block bg-indigo-500 hover:bg-indigo-600 text-white rounded-md p-4 text-center font-semibold"
+          >
+           Historial de Ventas
           </Link>
         </div>
       </section>

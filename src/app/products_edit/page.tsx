@@ -231,16 +231,6 @@ export default function ProductList() {
         </h1>
       </div>
       <div className="flex items-center justify-between">
-        <div className="flex gap-2">
-          <Button variant="outline">
-            <FileSpreadsheet className="w-4 h-4 mr-2" />
-            Excel
-          </Button>
-          <Button variant="destructive">
-            <FileText className="w-4 h-4 mr-2" />
-            PDF
-          </Button>
-        </div>
         <Input
           placeholder="Buscar"
           className="w-64"
