@@ -57,6 +57,9 @@ export const config = {
     "/clientes",
     "/admin",
     "/carritoCompras",
+    "/graficosVentas",
+    "/provedores",
+    "/registrarProveedor",
     "/components/:path*",
   ],
 };

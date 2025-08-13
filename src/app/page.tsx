@@ -55,7 +55,7 @@ export default function HomePage() {
         {/* Tarjeta de Total de Productos */}
         <div className="bg-white rounded-lg shadow-md p-6 flex items-center justify-between">
           <div>
-            <h3 className="text-lg font-semibold text-blue-700">
+            <h3 className="text-lg font-semibold">
               Total de Productos
             </h3>
             <p className="text-2xl font-bold text-green-600 mt-2">
@@ -70,7 +70,7 @@ export default function HomePage() {
         {/* Tarjeta de Productos Bajo Stock */}
         <div className="bg-white rounded-lg shadow-md p-6 flex items-center justify-between">
           <div>
-            <h3 className="text-lg font-semibold text-blue-700">
+            <h3 className="text-lg font-semibold">
               Total Ventas
             </h3>
             <p className="text-2xl font-bold text-orange-600 mt-2">
@@ -85,7 +85,7 @@ export default function HomePage() {
         {/* Tarjeta de Total de Clientes */}
         <div className="bg-white rounded-lg shadow-md p-6 flex items-center justify-between">
           <div>
-            <h3 className="text-lg font-semibold text-blue-700">
+            <h3 className="text-lg font-semibold">
               Total de Clientes
             </h3>
             <p className="text-2xl font-bold text-blue-600 mt-2">
@@ -100,7 +100,7 @@ export default function HomePage() {
         {/* Tarjeta de Total de Proveedores */}
         <div className="bg-white rounded-lg shadow-md p-6 flex items-center justify-between">
           <div>
-            <h3 className="text-lg font-semibold text-blue-700">
+            <h3 className="text-lg font-semibold">
               Total de trabajadores
             </h3>
             <p className="text-2xl font-bold text-purple-600 mt-2">
@@ -114,7 +114,7 @@ export default function HomePage() {
       </section>
 
       <section className="bg-white rounded-lg shadow-md p-8 mb-8">
-        <h2 className="text-xl font-semibold text-blue-800 mb-4">
+        <h2 className="text-xl font-semibold mb-4 text-center">
           Acciones Rápidas
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -126,21 +126,21 @@ export default function HomePage() {
           </Link>
           <Link
             href="/clientes"
-            className="block bg-indigo-500 hover:bg-indigo-600 text-white rounded-md p-4 text-center font-semibold"
+            className="block bg-blue-500 hover:bg-blue-600 text-white rounded-md p-4 text-center font-semibold"
           >
             Gestionar Clientes
           </Link>
           <Link
             href="/deudas"
-            className="block bg-purple-500 hover:bg-purple-600 text-white rounded-md p-4 text-center font-semibold"
+            className="block bg-blue-500 hover:bg-blue-600 text-white rounded-md p-4 text-center font-semibold"
           >
             Gestionar Deudas
           </Link>
           <Link
-            href="/createProduct"
-            className="block bg-green-500 hover:bg-green-600 text-white rounded-md p-4 text-center font-semibold"
+            href="/graficosVentas"
+            className="block bg-blue-500 hover:bg-blue-600 text-white rounded-md p-4 text-center font-semibold"
           >
-            Nuevo Producto
+            Estadisticas de Ventas
           </Link>
           <Link
             href="/createClient"
@@ -150,25 +150,25 @@ export default function HomePage() {
           </Link>
           <Link
             href="/createSupplier"
-            className="block bg-indigo-500 hover:bg-indigo-600 text-white rounded-md p-4 text-center font-semibold"
+            className="block bg-blue-500 hover:bg-blue-600 text-white rounded-md p-4 text-center font-semibold"
           >
             Nuevo Proveedor
           </Link>
           <Link
             href="/registrer"
-            className="block bg-indigo-500 hover:bg-indigo-600 text-white rounded-md p-4 text-center font-semibold"
+            className="block bg-blue-500 hover:bg-blue-600 text-white rounded-md p-4 text-center font-semibold"
           >
             Nuevo Trabajador
           </Link>
           <Link
             href="/registrer"
-            className="block bg-indigo-500 hover:bg-indigo-600 text-white rounded-md p-4 text-center font-semibold"
+            className="block bg-blue-500 hover:bg-blue-600 text-white rounded-md p-4 text-center font-semibold"
           >
            Historial de Deudas
           </Link>
           <Link
-            href="/registrer"
-            className="block bg-indigo-500 hover:bg-indigo-600 text-white rounded-md p-4 text-center font-semibold"
+            href="/historialventa"
+            className="block bg-blue-500 hover:bg-blue-600 text-white rounded-md p-4 text-center font-semibold"
           >
            Historial de Ventas
           </Link>

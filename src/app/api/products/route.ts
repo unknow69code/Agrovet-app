@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
   const body = await req.json();
-  const { nombre, descripcion, precio_compra, precio, stock, stock_minimo, fecha_vencimiento, lote, estado, foto_url } = body;
+  const { nombre, descripcion, precio_compra, precio, stock, fecha_vencimiento, lote, foto_url } = body;
 
   try {
     const existingProduct = await getNameProducts(nombre);
@@ -13,7 +13,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ ok: false, message: "Ya existe un producto con este nombre." }, { status: 409 }); // 409 Conflict
     }
 
-    if (!nombre || !descripcion || precio_compra == null || precio == null || stock == null || stock_minimo == null || !fecha_vencimiento || lote == null || estado == null || !foto_url) {
+    if (!nombre || !descripcion || precio_compra == null || precio == null || stock == null || !fecha_vencimiento || lote == null || !foto_url) {
       return NextResponse.json({ ok: false, message: "Faltan campos obligatorios" }, { status: 400 });
     }
 
@@ -22,7 +22,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ ok: false, message: "Los campos numéricos deben de ser positivos." }, { status: 400 });
     }
 
-    const nuevoProducto = await createProduct(nombre, descripcion, precio_compra, precio, stock, stock_minimo, fecha_vencimiento, lote, estado, foto_url);
+    const nuevoProducto = await createProduct(nombre, descripcion, precio_compra, precio, stock, fecha_vencimiento, lote, foto_url);
     
     return NextResponse.json(nuevoProducto, { status: 201 });
   } catch (error: any) {

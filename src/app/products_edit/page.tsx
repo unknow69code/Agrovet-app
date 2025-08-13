@@ -232,7 +232,7 @@ export default function ProductList() {
       </div>
       <div className="flex items-center justify-between">
         <Input
-          placeholder="Buscar"
+          placeholder="Buscar por nombre"
           className="w-64"
           value={searchTerm}
           onChange={handleSearch}
@@ -242,16 +242,16 @@ export default function ProductList() {
       <Card>
         <CardContent className="p-0">
           <Table>
-            <TableHeader>
+            <TableHeader className="bg-blue-700">
               <TableRow>
-                <TableHead className="text-center">Código</TableHead>
-                <TableHead>Nombre</TableHead>
-                <TableHead>Descripción</TableHead>
-                <TableHead>Precio Venta</TableHead>
-                <TableHead>Precio Compra</TableHead>
-                <TableHead>Stock</TableHead>
-                <TableHead>Foto</TableHead>
-                <TableHead>Acciones</TableHead>
+                <TableHead className="text-center text-white">Código</TableHead>
+                <TableHead className="text-white">Nombre</TableHead>
+                <TableHead className="text-white">Descripción</TableHead>
+                <TableHead className="text-white">Precio Venta</TableHead>
+                <TableHead className="text-white">Precio Compra</TableHead>
+                <TableHead className="text-white">Stock</TableHead>
+                <TableHead className="text-white">Foto</TableHead>
+                <TableHead className="text-white">Acciones</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>

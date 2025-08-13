@@ -16,6 +16,8 @@
     "@mantine/core": "^7.17.7",
     "@mantine/hooks": "^7.17.7",
     "@mui/material": "^7.0.2",
+    "@nivo/bar": "^0.99.0",
+    "@nivo/core": "^0.99.0",
     "@prisma/client": "^6.7.0",
     "@radix-ui/react-dialog": "^1.1.14",
     "@radix-ui/react-slot": "^1.2.3",

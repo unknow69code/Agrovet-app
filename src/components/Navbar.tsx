@@ -89,8 +89,11 @@ const navigationConfig: NavigationItem[] = [
     subItems: [
       { name: "Nuevo", href: "/createProduct", roles: ["user", "admin"], icon: RectangleGroupIcon },
       { name: "Editar", href: "/products_edit", roles: ["admin", "user"], icon: PencilSquareIcon },
+      { name: "Proveedor", href: "/registrarProveedor", roles: ["admin", "user"], icon: UserPlusIcon },
+      { name: "Proveedores", href: "/provedores", roles: ["admin", "user"], icon: UsersIcon },
     ],
   },
+  
     {
     name: "Ventas",
     href: "/ventas",
@@ -100,6 +103,7 @@ const navigationConfig: NavigationItem[] = [
       { name: "Nueva venta", href: "/products", roles: ["admin","user"], icon: ListBulletIcon },
       { name: "Carrito", href: "/carritoCompras", roles: ["admin", "user"], icon: ShoppingCartIcon },
       { name: "Historial", href: "/historialventa", roles: ["admin", "user"], icon: TbChartHistogram },
+      { name: "Estadisticas", href: "/graficosVentas", roles: ["admin", "user"], icon: TbChartHistogram },
     ],
   },
   {
@@ -204,7 +208,7 @@ function Navbar() {
                       className="relative"
                       style={{ display: item.roles?.includes(userRole) ? "" : "none" }}
                     >
-                      <MenuButton className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium flex items-center">
+                      <MenuButton className="text-gray-300 hover:bg-blue-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium flex items-center">
                         {item.icon && <item.icon className="h-5 w-5 mr-2" aria-hidden="true" />}
                         {item.name}
                         <ChevronDownIcon

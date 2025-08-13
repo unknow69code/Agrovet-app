@@ -1,4 +1,4 @@
-import { getventas } from "@/models/factura";
+import { getventas, conteoventasmesuales } from "@/models/factura";
 export const dynamic = "force-dynamic";
 
 interface Producto {
@@ -13,12 +13,14 @@ interface Typesworkes {
   id_cliente: number;
   fecha: Date;
   total: number;
-  productos: Producto[]; // Corrected to be an array of Producto
+  productos: Producto[]; 
 }
 
 export default async function VentasPage() {
+  const ConteoVentas: Typesworkes[] = await conteoventasmesuales();
   const Ventas: Typesworkes[] = await getventas();
-  console.log("Ventas:", Ventas);
+  //console.log("Ventas:", Ventas);
+  //console.log("Conteo de Ventas:", ConteoVentas);
 
   return (
     <main className="min-h-screen bg-gray-100 p-8">

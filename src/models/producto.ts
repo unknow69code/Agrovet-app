@@ -8,10 +8,8 @@ export async function createProduct(
     precio_compra: number,
     precio: number,
     stock: number,
-    stock_minimo: number,
     fecha_vencimiento: string,
     lote: string,
-    estado: string,
     foto_url: string
 ) {
     // Validar los campos requeridos
@@ -33,19 +31,17 @@ export async function createProduct(
         // Insertar el producto en la base de datos
         const result: any = await queryDatabase(
             `INSERT INTO productos (
-                nombre, descripcion, precio_compra, precio_venta , stock, stock_minimo, fecha_vencimiento, 
-                lote, estado, foto_url
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                nombre, descripcion, precio_compra, precio_venta , stock, fecha_vencimiento, 
+                lote, foto_url
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
             [
                 nombre,
                 descripcion,
                 precio_compra,
                 precio,
                 stock,
-                stock_minimo,
                 fecha_vencimiento,
                 lote,
-                estado,
                 foto_url,
             ]
         );
@@ -127,3 +123,4 @@ export async function actualizarStockProducto(idProducto: number, cantidadVendid
         throw new Error(`Error al actualizar el stock del producto: ${error.message}`);
     }
 }
+

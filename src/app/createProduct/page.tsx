@@ -19,16 +19,14 @@ function ProductRegister() {
         precio_compra: parseFloat(formData.get("precio_compra") as string),
         precio: parseFloat(formData.get("precio") as string),
         stock: parseInt(formData.get("stock") as string),
-        stock_minimo: parseInt(formData.get("stock_minimo") as string),
         fecha_vencimiento: formData.get("fecha_vencimiento"),
         lote: formData.get("lote"),
-        estado: formData.get("estado"),
         foto_url: formData.get("foto_url"),
       });
 
+      router.push("/products");
       enqueueSnackbar("Producto creado correctamente.", { variant: "success" });
       e.currentTarget.reset();
-      return router.push("/products_edit");
     } catch (error) {
       if (error instanceof AxiosError) {
         enqueueSnackbar(
@@ -127,18 +125,6 @@ function ProductRegister() {
             </div>
 
             <div>
-              <label htmlFor="stock_minimo" className="label">
-                Stock mínimo
-              </label>
-              <input
-                type="number"
-                name="stock_minimo"
-                id="stock_minimo"
-                className="input"
-              />
-            </div>
-
-            <div>
               <label htmlFor="fecha_vencimiento" className="label">
                 Fecha de vencimiento
               </label>
@@ -167,17 +153,6 @@ function ProductRegister() {
                 id="foto_url"
                 className="input"
               />
-            </div>
-
-            <div>
-              <label htmlFor="estado" className="label">
-                Estado
-              </label>
-              <select name="estado" id="estado" className="input">
-                <option value="activo">Activo</option>
-                <option value="descontinuado">Descontinuado</option>
-                <option value="vencido">Vencido</option>
-              </select>
             </div>
           </div>
 
