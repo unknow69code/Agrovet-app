@@ -9,7 +9,7 @@ export async function createProveedor(
     throw new Error("Todos los datos son requeridos");
 
   const trabajadores: any = await queryDatabase(
-    "INSERT INTO proveedores (nombre, telefono, email) VALUES (?, ?, ?)",
+    "INSERT INTO proveedores (nombre_proveedor, telefono, email) VALUES (?, ?, ?)",
     [nombre, telefono, correo]
   );
   return {
