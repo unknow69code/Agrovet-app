@@ -10,7 +10,8 @@ export async function createProduct(
     stock: number,
     fecha_vencimiento: string,
     lote: string,
-    foto_url: string
+    foto_url: string,
+    id_proveedor: number
 ) {
     // Validar los campos requeridos
     if (!nombre || !precio || stock < 0 || precio_compra < 0) {
@@ -32,8 +33,8 @@ export async function createProduct(
         const result: any = await queryDatabase(
             `INSERT INTO productos (
                 nombre, descripcion, precio_compra, precio_venta , stock, fecha_vencimiento, 
-                lote, foto_url
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+                lote, foto_url, id_proveedor
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
             [
                 nombre,
                 descripcion,
@@ -43,6 +44,7 @@ export async function createProduct(
                 fecha_vencimiento,
                 lote,
                 foto_url,
+                id_proveedor
             ]
         );
 

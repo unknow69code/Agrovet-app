@@ -43,6 +43,7 @@ export const config = {
   matcher: [
     "/dashboard",
     "/registropagos",
+    "/ventas",
     "/deudas",
     "/historialventa",
     "/",
@@ -58,8 +59,10 @@ export const config = {
     "/admin",
     "/carritoCompras",
     "/graficosVentas",
+    "/generarFactura",
     "/provedores",
     "/registrarProveedor",
+    "/canbiarContra",
     "/components/:path*",
   ],
 };

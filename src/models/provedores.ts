@@ -21,7 +21,7 @@ export async function createProveedor(
 }
 
 export async function getProveedores() {
-    const proveedor = "SELECT * FROM proveedores ORDER BY id ASC";
+    const proveedor = "SELECT * FROM proveedores ORDER BY id_proveedor ASC";
     try {
         console.log("Consulta a ejecutar:", proveedor);
         const rows = await queryDatabase(proveedor, []);

@@ -3,8 +3,8 @@ import { getProveedores } from "@/models/provedores";
 export const dynamic = 'force-dynamic'; 
 
 type ClienType = {
-  id: number;
-  nombre: string;
+  id_proveedor: number;
+  nombre_proveedor: string;
   telefono: string;
   email: string;
 };
@@ -14,7 +14,7 @@ export default async function ProveedoresPage() {
 
   return (
     <main className="min-h-screen bg-gray-100 p-8">
-      <h1 className="mb-6 text-3xl font-bold text-blue-800">Lista de Clientes</h1>
+      <h1 className="mb-6 text-3xl font-bold text-blue-800">Lista de Proveedores de Productos</h1>
 
       <div className="overflow-x-auto rounded-lg shadow">
         <table className="min-w-full divide-y divide-gray-400 bg-white">
@@ -27,12 +27,12 @@ export default async function ProveedoresPage() {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
-            {clientes.map((cliente) => (
-              <tr key={cliente.id} className="hover:bg-gray-50">
-                <td className="px-4 py-2 text-sm">{cliente.id}</td>
-                <td className="px-4 py-2 text-sm">{cliente.nombre}</td>
-                <td className="px-4 py-2 text-sm">{cliente.telefono}</td>
-                <td className="px-4 py-2 text-sm">{cliente.email}</td>
+            {clientes.map((proveedor) => (
+              <tr key={proveedor.id_proveedor} className="hover:bg-gray-50">
+                <td className="px-4 py-2 text-sm">{proveedor.id_proveedor}</td>
+                <td className="px-4 py-2 text-sm">{proveedor.nombre_proveedor}</td>
+                <td className="px-4 py-2 text-sm">{proveedor.telefono}</td>
+                <td className="px-4 py-2 text-sm">{proveedor.email}</td>
               </tr>
             ))}
           </tbody>

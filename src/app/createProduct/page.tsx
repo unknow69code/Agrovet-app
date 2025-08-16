@@ -1,19 +1,34 @@
 "use client";
 import axios, { AxiosError } from "axios";
-import { FormEvent } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useSnackbar } from "notistack";
 import { useRouter } from "next/navigation";
+
+type ClienType = {
+  id_proveedor: number;
+  nombre: string;
+  telefono: string;
+  email: string;
+};
 
 function ProductRegister() {
   const { enqueueSnackbar } = useSnackbar();
   const router = useRouter();
+  const [proveedores, setProveedores] = useState<any[]>([]);
+
+  useEffect(() => {
+    axios
+      .get("/api/provedores")
+      .then((res) => setProveedores(res.data))
+      .catch((err) => console.error("Error cargando proveedores", err));
+  }, []);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
 
     try {
-      const res = await axios.post("/api/products", {
+      await axios.post("/api/products", {
         nombre: formData.get("nombre"),
         descripcion: formData.get("descripcion"),
         precio_compra: parseFloat(formData.get("precio_compra") as string),
@@ -22,6 +37,7 @@ function ProductRegister() {
         fecha_vencimiento: formData.get("fecha_vencimiento"),
         lote: formData.get("lote"),
         foto_url: formData.get("foto_url"),
+        id_proveedor: parseInt(formData.get("id_proveedor") as string),
       });
 
       router.push("/products");
@@ -31,9 +47,7 @@ function ProductRegister() {
       if (error instanceof AxiosError) {
         enqueueSnackbar(
           error.response?.data.message || "Error al crear producto",
-          {
-            variant: "error",
-          }
+          { variant: "error" }
         );
       }
     }
@@ -43,11 +57,7 @@ function ProductRegister() {
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 px-4 py-12">
       <div className="w-full max-w-2xl rounded-2xl bg-white p-10 shadow-lg">
         <div className="flex flex-col mb-4 items-center">
-          <img
-            src="/veterinario.png"
-            alt="AGROVET"
-            className="h-20 w-auto"
-          />
+          <img src="/veterinario.png" alt="AGROVET" className="h-20 w-auto" />
           <h2 className="text-3xl font-bold text-gray-800">
             Registrar nuevo producto
           </h2>
@@ -57,6 +67,7 @@ function ProductRegister() {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Campos */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label htmlFor="nombre" className="label">
@@ -154,8 +165,33 @@ function ProductRegister() {
                 className="input"
               />
             </div>
+
+            {/* Select Proveedor */}
+            <div className="w-full">
+              <label
+                htmlFor="id_proveedor"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Seleccione el proveedor
+              </label>
+              <div className="relative mt-1">
+                <select name="id_proveedor" className="form-control" required>
+                  <option value="">-- Selecciona un proveedor --</option>
+                  {proveedores.length > 0 &&
+                    proveedores.map((proveedor) => (
+                      <option key={proveedor.id_proveedor} value={proveedor.id_proveedor}>
+                        {proveedor.nombre_proveedor}
+                      </option>
+                    ))}
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-700">
+                </div>
+              </div>
+            </div>
+
           </div>
 
+          {/* Botón */}
           <div>
             <button
               type="submit"

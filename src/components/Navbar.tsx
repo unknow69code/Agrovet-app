@@ -289,6 +289,14 @@ function Navbar() {
                   </Link>
                 </MenuItem>
                 <MenuItem>
+                  <Link
+                    href="/canbiarContra"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  >
+                    Cambiar contraseña
+                  </Link>
+                </MenuItem>
+                <MenuItem>
                   {({ active }) => (
                     <button
                       onClick={() => signOut({ callbackUrl: "/login" })}
