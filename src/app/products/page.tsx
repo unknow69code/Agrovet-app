@@ -135,7 +135,7 @@ function Products() {
               key={product.id_producto}
               className="relative rounded-xl border border-gray-200 bg-white p-4 shadow-sm transition hover:shadow-md"
             >
-              <a href={`/product/${product.id_producto}`}>
+
                 <img
                   src={product.foto_url}
                   alt={product.nombre}
@@ -149,7 +149,6 @@ function Products() {
                     {"$" + product.precio_venta + " vl/unt"}
                   </p>
                 </div>
-              </a>
 
               {/* Quantity Input */}
               <div className="mt-3 flex items-center justify-between">

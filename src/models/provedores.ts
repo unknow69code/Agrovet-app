@@ -32,6 +32,18 @@ export async function getProveedores() {
     }
 }
 
+export async function getNameProveedores(nombre: string) {
+    const query = `SELECT nombre_proveedor FROM proveedores where nombre_proveedor = '${nombre}'`;
+    try {
+        console.log("Consulta a ejecutar:", query);
+        const rows = await queryDatabase(query, []);
+        return rows;
+    } catch (error: any) {
+        console.error("Error al obtener los proveedores:", error.message);
+        throw new Error("Error al obtener los proveedores: " + error.message);
+    }
+}
+
 
 export async function countProveedores() {
     const countProveedores = "SELECT COUNT(*) AS total FROM cliente";
@@ -43,4 +55,22 @@ export async function countProveedores() {
         console.error("Error al obtener los proveedores:", error.message);
         throw new Error("Error al obtener los proveedores: " + error.message);
     }
+}
+
+export async function updateProveedor(
+  id: number,
+  data: { nombre_proveedor: string; telefono: string; email: string }
+) {
+  const { nombre_proveedor, telefono, email } = data;
+  const query =
+    "UPDATE proveedores SET nombre_proveedor = ?, telefono = ?, email = ? WHERE id_proveedor = ?";
+  const params = [nombre_proveedor, telefono, email, id];
+
+  try {
+    const result = await queryDatabase(query, params);
+    return result;
+  } catch (error: any) {
+    console.error("Error al actualizar el proveedor:", error.message);
+    throw new Error("Error al actualizar el proveedor: " + error.message);
+  }
 }

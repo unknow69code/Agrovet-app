@@ -1,22 +1,22 @@
 import { NextResponse } from "next/server";
-import { findclientBycc, findClienteByCedula, countClientes } from "@/models/clientes";
 import { createProveedor, getProveedores } from "@/models/provedores";
+import { getNameProveedores } from "@/models/provedores";
 export const dynamic = 'force-dynamic'; 
 
 export async function POST(request: Request) {
   const { nombre, telefono, correo } =
     await request.json();
 
-  const existingUser = await findclientBycc(nombre);
-  if (existingUser) {
+  const existingProvedores = await getNameProveedores(nombre);
+  console.log(existingProvedores);
+      if (existingProvedores.length > 0) { 
+        return NextResponse.json({ ok: false, message: "Ya existe un proveedor con este nombre." }, { status: 409 }); // 409 Conflict
+      }
+
+      const telefonotostring = String(telefono) ;
+  if (telefono < 0 || telefonotostring.length > 11) {
     return NextResponse.json(
-      { ok: false, message: "Este proveedor ya está registrado." },
-      { status: 400 }
-    );
-  }
-  if (correo < 0 || telefono < 0) {
-    return NextResponse.json(
-        { ok: false, message: "La cedula o telefono no puede ser un numero negativo." },
+        { ok: false, message: "telefono no puede ser un numero negativo." },
         { status: 400 }
     );
   }
@@ -32,7 +32,7 @@ export async function POST(request: Request) {
     );
   } catch (error: any) {
     return NextResponse.json(
-      { ok: false, message: error.message || "Error al crear el usuario" },
+      { ok: false, message: error.message || "Error al crear el proveedor" },
       { status: 500 }
     );
   }

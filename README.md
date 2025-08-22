@@ -1,5 +1,6 @@
 # Agrovet-app
 Inventory and debt management system.
+DESARROLLADOR: JOSE MANUEL MENDOZA VASQUEZ.
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
