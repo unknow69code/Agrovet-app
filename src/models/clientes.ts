@@ -89,3 +89,21 @@ export async function countClientes() {
         throw new Error("Error al obtener los productos: " + error.message);
     }
 }
+
+export async function updateClientes(
+  id: number,
+  data: { nombre: string; cedula: number; direccion: string, telefono: number }
+) {
+  const { nombre, cedula, direccion, telefono } = data;
+  const query =
+    "UPDATE cliente SET nombre = ?, cedula = ?, direccion = ?, telefono= ? WHERE id = ?";
+  const params = [nombre, cedula, direccion, telefono, id];
+
+  try {
+    const result = await queryDatabase(query, params);
+    return result;
+  } catch (error: any) {
+    console.error("Error al actualizar el cliente:", error.message);
+    throw new Error("Error al actualizar el cliente: " + error.message);
+  }
+}

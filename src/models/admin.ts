@@ -46,3 +46,21 @@ export async function getAdmins() {
         throw new Error("Error al obtener los productos: " + error.message);
     }
 }
+
+export async function updateAdmins(
+  id: number,
+  data: { nombre: string; correo: string }
+) {
+  const { nombre, correo } = data;
+  const query =
+    "UPDATE admin SET nombre = ?, correo= ? WHERE id = ?";
+  const params = [nombre, correo, id];
+
+  try {
+    const result = await queryDatabase(query, params);
+    return result;
+  } catch (error: any) {
+    console.error("Error al actualizar el administrador:", error.message);
+    throw new Error("Error al actualizar el administrador: " + error.message);
+  }
+}

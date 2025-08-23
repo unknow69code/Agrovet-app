@@ -23,7 +23,7 @@ export default function HomePage() {
         const bajoStockData = await bajoStockRes.json();
         setProductosBajoStock(bajoStockData.count || 0);
 
-        const clientesRes = await fetch("/api/clients"); // Reemplaza con tu endpoint real
+        const clientesRes = await fetch("/api/clients/count"); // Reemplaza con tu endpoint real
         const clientesData = await clientesRes.json();
         setTotalClientes(clientesData.count || 0);
 

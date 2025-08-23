@@ -62,3 +62,21 @@ export async function countWorkers() {
         throw new Error("Error al obtener los trabajadores: " + error.message);
     }
 }
+
+export async function updatetrabajadores(
+  id: number,
+  data: { nombre: string; cedula: number; telefono: number; direccion: string, correo: string }
+) {
+  const { nombre, cedula, telefono, direccion, correo } = data;
+  const query =
+    "UPDATE trabajadores SET nombre = ?, cedula = ?, telefono= ?, direccion = ?, correo = ? WHERE id = ?";
+  const params = [nombre, cedula, telefono, direccion, correo , id];
+
+  try {
+    const result = await queryDatabase(query, params);
+    return result;
+  } catch (error: any) {
+    console.error("Error al actualizar el trabajador:", error.message);
+    throw new Error("Error al actualizar el trabajador: " + error.message);
+  }
+}

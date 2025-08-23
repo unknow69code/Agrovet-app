@@ -1,4 +1,3 @@
-// app/historialventa/page.tsx
 import { MyBarChart } from '@/components/graficas/HistorialVentas'; // Asegúrate de que la ruta sea correcta
 import { conteoventasproductosmesuales, conteoventasmesuales } from "@/models/factura";
 
