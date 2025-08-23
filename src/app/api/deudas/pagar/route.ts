@@ -6,7 +6,7 @@ import mysql from 'mysql2/promise';
 
 export async function POST(req: Request) {
     try {
-        const { id_deuda, monto_pago, metodo_pago, observaciones } = await req.json();
+        const { cedula_cliente, id_deuda, monto_pago, metodo_pago, observaciones } = await req.json();
 
         // Validaciones básicas
         if (!id_deuda || typeof monto_pago === 'undefined' || monto_pago <= 0 || !metodo_pago) {
@@ -38,8 +38,8 @@ export async function POST(req: Request) {
 
             // 2. Insertar el nuevo pago en la tabla 'pagos_deuda'
             await connection.execute(
-                `INSERT INTO pagos_deuda (id_deuda, monto_pago, fecha_pago, metodo_pago, observaciones) VALUES (?, ?, NOW(), ?, ?)`,
-                [id_deuda, monto_pago, metodo_pago, observaciones || 'Pago de deuda']
+                `INSERT INTO pagos_deuda (id_deuda, cedula_cliente, monto_pago, fecha_pago, metodo_pago, observaciones) VALUES (?, ?, ?, NOW(), ?, ?)`,
+                [id_deuda, cedula_cliente, monto_pago, metodo_pago, observaciones || 'Pago de deuda']
             );
 
             // 3. Calcular el nuevo monto pendiente

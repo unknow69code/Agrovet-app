@@ -12,7 +12,8 @@ import {
 } from "@heroicons/react/24/solid";
 import { MapPinIcon, IdentificationIcon } from "@heroicons/react/24/outline";
 import { Button } from "@/components/ui/button";
-import { Edit } from "lucide-react";
+import { Edit, Plus } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 // Define el tipo para un trabajador
 interface Typesworkes {
@@ -89,6 +90,7 @@ export default function TrabajadoresPage() {
   const [trabajadores, setTrabajadores] = useState<Typesworkes[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const router = useRouter();
 
   // Estados para los modales
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -253,7 +255,17 @@ export default function TrabajadoresPage() {
       <h1 className="mb-6 text-3xl font-bold text-blue-800">
         Lista de Trabajadores
       </h1>
-
+      <div className="mb-4 flex">
+              <Button
+                size="sm"
+                variant="link"
+                className="text-green-600 border border-green-600"
+                onClick={() => router.push("/registrer")}
+              >
+                <Plus className="w-4 h-4" />
+                Nuevo Trabajador
+              </Button>
+            </div>
       <div className="mb-4">
         <input
           type="text"

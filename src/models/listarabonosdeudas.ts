@@ -1,7 +1,7 @@
 import { queryDatabase } from "../libs/db";
 
 export async function getAbonosDeudas() {
-    const query = "SELECT * FROM pagos_deuda ORDER BY id_pago ASC";
+    const query = "SELECT * FROM pagos_deuda ORDER BY id_pago DESC";
     try {
         console.log("Consulta a ejecutar:", query);
         const rows = await queryDatabase(query, []);

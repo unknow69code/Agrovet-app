@@ -9,7 +9,8 @@ import {
   EnvelopeIcon,
 } from "@heroicons/react/24/solid";
 import { Button } from "@/components/ui/button";
-import { Edit, PhoneIcon, UserIcon } from "lucide-react";
+import { Edit, PhoneIcon, Plus, UserIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 // Define the type for a supplier (proveedor)
 type ProveedorType = {
@@ -55,9 +56,12 @@ const ConfirmDeleteModal = ({
 }) => (
   <Modal isOpen={isOpen} onClose={onClose}>
     <div className="p-4 text-center">
-      <h2 className="mb-4 text-2xl font-bold text-gray-800">Confirmación de Eliminación</h2>
+      <h2 className="mb-4 text-2xl font-bold text-gray-800">
+        Confirmación de Eliminación
+      </h2>
       <p className="mb-6 text-gray-600">
-        ¿Estás seguro de que quieres eliminar este proveedor? Esta acción no se puede deshacer.
+        ¿Estás seguro de que quieres eliminar este proveedor? Esta acción no se
+        puede deshacer.
       </p>
       <div className="flex justify-center space-x-4">
         <button
@@ -82,10 +86,12 @@ export default function ProveedoresPage() {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
-  const [proveedorToDelete, setProveedorToDelete] = useState<number | null>(null);
-  const [selectedProveedor, setSelectedProveedor] = useState<ProveedorType | null>(
+  const [proveedorToDelete, setProveedorToDelete] = useState<number | null>(
     null
   );
+  const [selectedProveedor, setSelectedProveedor] =
+    useState<ProveedorType | null>(null);
+  const router = useRouter();
   const [formData, setFormData] = useState({
     nombre_proveedor: "",
     telefono: "",
@@ -187,15 +193,20 @@ export default function ProveedoresPage() {
   const handleDelete = async () => {
     if (proveedorToDelete === null) return;
     try {
-      const response = await fetch(`${window.location.origin}/api/provedores/${proveedorToDelete}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `${window.location.origin}/api/provedores/${proveedorToDelete}`,
+        {
+          method: "DELETE",
+        }
+      );
 
       if (response.ok) {
         enqueueSnackbar("Proveedor eliminado correctamente", {
           variant: "success",
         });
-        setProveedores(proveedores.filter((p) => p.id_proveedor !== proveedorToDelete));
+        setProveedores(
+          proveedores.filter((p) => p.id_proveedor !== proveedorToDelete)
+        );
       } else {
         const errorData = await response.json();
         enqueueSnackbar(`Error al eliminar: ${errorData.message}`, {
@@ -204,9 +215,12 @@ export default function ProveedoresPage() {
       }
     } catch (error) {
       console.error("Error al eliminar proveedor:", error);
-      enqueueSnackbar("Hubo un problema de conexión al eliminar el proveedor.", {
-        variant: "error",
-      });
+      enqueueSnackbar(
+        "Hubo un problema de conexión al eliminar el proveedor.",
+        {
+          variant: "error",
+        }
+      );
     } finally {
       setIsConfirmModalOpen(false);
       setProveedorToDelete(null);
@@ -226,43 +240,66 @@ export default function ProveedoresPage() {
       <h1 className="mb-6 text-3xl font-bold text-blue-800">
         Lista de Proveedores de Productos
       </h1>
+      <div className="mb-4 flex">
+        <Button
+          size="sm"
+          variant="link"
+          className="text-green-600 border border-green-600"
+          onClick={() => router.push("/registrarProveedor")}
+        >
+          <Plus className="w-4 h-4" />
+          Nuevo Proveedor
+        </Button>
+      </div>
       <div className="overflow-x-auto rounded-lg shadow">
         <table className="min-w-full divide-y divide-gray-400 bg-white">
           <thead className="bg-blue-700">
             <tr>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-white">#</th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-white">Nombre</th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-white">Teléfono</th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-white">Correo</th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-white">Acciones</th>
+              <th className="px-4 py-3 text-left text-sm font-semibold text-white">
+                #
+              </th>
+              <th className="px-4 py-3 text-left text-sm font-semibold text-white">
+                Nombre
+              </th>
+              <th className="px-4 py-3 text-left text-sm font-semibold text-white">
+                Teléfono
+              </th>
+              <th className="px-4 py-3 text-left text-sm font-semibold text-white">
+                Correo
+              </th>
+              <th className="px-4 py-3 text-left text-sm font-semibold text-white">
+                Acciones
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
             {proveedores.map((proveedor) => (
               <tr key={proveedor.id_proveedor} className="hover:bg-gray-50">
                 <td className="px-4 py-2 text-sm">{proveedor.id_proveedor}</td>
-                <td className="px-4 py-2 text-sm">{proveedor.nombre_proveedor}</td>
+                <td className="px-4 py-2 text-sm">
+                  {proveedor.nombre_proveedor}
+                </td>
                 <td className="px-4 py-2 text-sm">{proveedor.telefono}</td>
                 <td className="px-4 py-2 text-sm">{proveedor.email}</td>
                 <td className="flex items-center space-x-2 px-4 py-2 text-sm">
                   <Button
-                          size="sm"
-                          variant="link"
-                          className="text-blue-600 border border-blue-600"
-                         onClick={() => handleEdit(proveedor)} // Changed to open specific modal
-                        >
-                          <Edit className="w-4 h-4" />
-                          Editar
-                        </Button>
+                    size="sm"
+                    variant="link"
+                    className="text-blue-600 border border-blue-600"
+                    onClick={() => handleEdit(proveedor)} // Changed to open specific modal
+                  >
+                    <Edit className="w-4 h-4" />
+                    Editar
+                  </Button>
                   <Button
-                          size="sm"
-                          variant="link"
-                          className="text-red-600 border border-red-600"
-                         onClick={() => handleDeleteClick(proveedor.id_proveedor)} // Changed to open specific modal
-                        >
-                          <Edit className="w-4 h-4" />
-                          Eliminar
-                        </Button>
+                    size="sm"
+                    variant="link"
+                    className="text-red-600 border border-red-600"
+                    onClick={() => handleDeleteClick(proveedor.id_proveedor)} // Changed to open specific modal
+                  >
+                    <Edit className="w-4 h-4" />
+                    Eliminar
+                  </Button>
                 </td>
               </tr>
             ))}
@@ -275,7 +312,9 @@ export default function ProveedoresPage() {
           <h2 className="text-2xl font-bold mb-4">Actualizar Proveedor</h2>
           <form onSubmit={handleSubmit}>
             <div className="mb-4 relative">
-              <label className="block text-gray-700 text-sm font-bold mb-2">Nombre</label>
+              <label className="block text-gray-700 text-sm font-bold mb-2">
+                Nombre
+              </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                   <UserIcon className="h-5 w-5 text-gray-400" />
@@ -290,8 +329,10 @@ export default function ProveedoresPage() {
                 />
               </div>
             </div>
-              <div className="mb-4 relative">
-              <label className="block text-gray-700 text-sm font-bold mb-2">Teléfono</label>
+            <div className="mb-4 relative">
+              <label className="block text-gray-700 text-sm font-bold mb-2">
+                Teléfono
+              </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                   <PhoneIcon className="h-5 w-5 text-gray-400" />
@@ -309,7 +350,9 @@ export default function ProveedoresPage() {
 
             {/* Input con ícono para "Correo" */}
             <div className="mb-4 relative">
-              <label className="block text-gray-700 text-sm font-bold mb-2">Correo</label>
+              <label className="block text-gray-700 text-sm font-bold mb-2">
+                Correo
+              </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                   <EnvelopeIcon className="h-5 w-5 text-gray-400" />

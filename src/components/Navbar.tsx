@@ -26,12 +26,12 @@ import {
   QueueListIcon,
   RectangleStackIcon,
   CreditCardIcon,
-  ChevronDownIcon
+  ChevronDownIcon,
   // ... any other Heroicons you're using directly in the navbar
 } from "@heroicons/react/24/outline";
 import { signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { ForwardRefExoticComponent, RefAttributes, SVGProps } from 'react'; // Import these types
+import { ForwardRefExoticComponent, RefAttributes, SVGProps } from "react"; // Import these types
 import { TbChartHistogram } from "react-icons/tb";
 
 // Extend the session user type to include 'role'
@@ -47,14 +47,16 @@ declare module "next-auth" {
 // === NEW TYPE DEFINITION FOR ICONS ===
 // This type allows both Heroicons and react-icons components as icons
 import { IconType } from "react-icons";
+import { CircleUserRound, KeyRound, LogOut, Plus } from "lucide-react";
 
 type NavbarIcon =
-  | ForwardRefExoticComponent<Omit<SVGProps<SVGSVGElement>, "ref"> & {
-      title?: string | undefined;
-      titleId?: string | undefined;
-    } & RefAttributes<SVGSVGElement>>
+  | ForwardRefExoticComponent<
+      Omit<SVGProps<SVGSVGElement>, "ref"> & {
+        title?: string | undefined;
+        titleId?: string | undefined;
+      } & RefAttributes<SVGSVGElement>
+    >
   | IconType;
-
 
 // === UPDATED INTERFACES FOR NAVIGATION ITEMS ===
 interface NavigationItem {
@@ -72,7 +74,6 @@ interface SubNavigationItem {
   icon?: NavbarIcon; // Accept both Heroicons and react-icons
 }
 
-
 // Your navigation configuration (ensure you've added the `icon` property to each item/subItem)
 const navigationConfig: NavigationItem[] = [
   {
@@ -87,23 +88,63 @@ const navigationConfig: NavigationItem[] = [
     roles: ["admin", "user"],
     icon: CubeIcon,
     subItems: [
-      { name: "Nuevo", href: "/createProduct", roles: ["user", "admin"], icon: RectangleGroupIcon },
-      { name: "Editar", href: "/products_edit", roles: ["admin", "user"], icon: PencilSquareIcon },
-      { name: "Proveedor", href: "/registrarProveedor", roles: ["admin", "user"], icon: UserPlusIcon },
-      { name: "Proveedores", href: "/provedores", roles: ["admin", "user"], icon: UsersIcon },
+      {
+        name: "Nuevo",
+        href: "/createProduct",
+        roles: ["user", "admin"],
+        icon: RectangleGroupIcon,
+      },
+      {
+        name: "Editar",
+        href: "/products_edit",
+        roles: ["admin", "user"],
+        icon: PencilSquareIcon,
+      },
+      {
+        name: "Proveedor",
+        href: "/registrarProveedor",
+        roles: ["admin", "user"],
+        icon: UserPlusIcon,
+      },
+      {
+        name: "Proveedores",
+        href: "/provedores",
+        roles: ["admin", "user"],
+        icon: UsersIcon,
+      },
     ],
   },
-  
-    {
+
+  {
     name: "Ventas",
     href: "/ventas",
     roles: ["admin", "user"],
     icon: ShoppingCartIcon,
     subItems: [
-      { name: "Nueva venta", href: "/products", roles: ["admin","user"], icon: ListBulletIcon },
-      { name: "Carrito", href: "/carritoCompras", roles: ["admin", "user"], icon: ShoppingCartIcon },
-      { name: "Historial", href: "/historialventa", roles: ["admin", "user"], icon: TbChartHistogram },
-      { name: "Estadisticas", href: "/graficosVentas", roles: ["admin", "user"], icon: TbChartHistogram },
+      {
+        name: "Nueva venta",
+        href: "/products",
+        roles: ["admin", "user"],
+        icon: ListBulletIcon,
+      },
+      {
+        name: "Carrito",
+        href: "/carritoCompras",
+        roles: ["admin", "user"],
+        icon: ShoppingCartIcon,
+      },
+      {
+        name: "Historial",
+        href: "/historialventa",
+        roles: ["admin", "user"],
+        icon: TbChartHistogram,
+      },
+      {
+        name: "Estadisticas",
+        href: "/graficosVentas",
+        roles: ["admin", "user"],
+        icon: TbChartHistogram,
+      },
     ],
   },
   {
@@ -112,8 +153,18 @@ const navigationConfig: NavigationItem[] = [
     roles: ["admin", "user"],
     icon: CreditCardIcon,
     subItems: [
-      { name: "Lista", href: "/deudas", roles: ["admin", "user"], icon: QueueListIcon },
-      { name: "Pagos", href: "/registropagos", roles: ["admin", "user"], icon: RectangleStackIcon },
+      {
+        name: "Lista",
+        href: "/deudas",
+        roles: ["admin", "user"],
+        icon: QueueListIcon,
+      },
+      {
+        name: "Pagos",
+        href: "/registropagos",
+        roles: ["admin", "user"],
+        icon: RectangleStackIcon,
+      },
     ],
   },
   {
@@ -122,8 +173,18 @@ const navigationConfig: NavigationItem[] = [
     roles: ["admin", "user"],
     icon: UserGroupIcon,
     subItems: [
-      { name: "Lista", href: "/clientes", roles: ["admin", "user"], icon: UsersIcon },
-      { name: "Nuevo", href: "/createClient", roles: ["admin", "user"], icon: UserPlusIcon },
+      {
+        name: "Lista",
+        href: "/clientes",
+        roles: ["admin", "user"],
+        icon: UsersIcon,
+      },
+      {
+        name: "Nuevo",
+        href: "/createClient",
+        roles: ["admin", "user"],
+        icon: UserPlusIcon,
+      },
     ],
   },
   {
@@ -133,7 +194,12 @@ const navigationConfig: NavigationItem[] = [
     icon: BuildingOfficeIcon,
     subItems: [
       { name: "admins", href: "/admin", roles: ["admin"], icon: UserGroupIcon },
-      { name: "Nuevo", href: "/createAdmin", roles: ["admin"], icon: UserPlusIcon },
+      {
+        name: "Nuevo",
+        href: "/createAdmin",
+        roles: ["admin"],
+        icon: UserPlusIcon,
+      },
     ],
   },
   {
@@ -142,11 +208,20 @@ const navigationConfig: NavigationItem[] = [
     roles: ["admin"],
     icon: UserGroupIcon,
     subItems: [
-      { name: "Trabajadores", href: "/trabajadores", roles: ["admin"], icon: ListBulletIcon },
-      { name: "Nuevo", href: "/registrer", roles: ["admin"], icon: UserPlusIcon },
+      {
+        name: "Trabajadores",
+        href: "/trabajadores",
+        roles: ["admin"],
+        icon: ListBulletIcon,
+      },
+      {
+        name: "Nuevo",
+        href: "/registrer",
+        roles: ["admin"],
+        icon: UserPlusIcon,
+      },
     ],
   },
-
 ];
 
 function classNames(...classes: string[]) {
@@ -169,7 +244,10 @@ function Navbar() {
 
   const filteredNavigation = navigationConfig.filter((item) => {
     if (item.subItems) {
-      return item.roles?.includes(userRole) || item.subItems.some(subItem => subItem.roles?.includes(userRole));
+      return (
+        item.roles?.includes(userRole) ||
+        item.subItems.some((subItem) => subItem.roles?.includes(userRole))
+      );
     }
     return item.roles?.includes(userRole);
   });
@@ -206,10 +284,17 @@ function Navbar() {
                       as="div"
                       key={item.name}
                       className="relative"
-                      style={{ display: item.roles?.includes(userRole) ? "" : "none" }}
+                      style={{
+                        display: item.roles?.includes(userRole) ? "" : "none",
+                      }}
                     >
                       <MenuButton className="text-gray-300 hover:bg-blue-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium flex items-center">
-                        {item.icon && <item.icon className="h-5 w-5 mr-2" aria-hidden="true" />}
+                        {item.icon && (
+                          <item.icon
+                            className="h-5 w-5 mr-2"
+                            aria-hidden="true"
+                          />
+                        )}
                         {item.name}
                         <ChevronDownIcon
                           className={classNames("ml-1 h-5 w-5 flex-shrink-0")}
@@ -219,18 +304,27 @@ function Navbar() {
                       <MenuItems className="absolute top-full left-0 mt-1 w-32 bg-white shadow-md rounded-md z-10">
                         <div className="py-1">
                           {item.subItems
-                            .filter((subItem) => subItem.roles?.includes(userRole))
+                            .filter((subItem) =>
+                              subItem.roles?.includes(userRole)
+                            )
                             .map((subItem) => (
                               <MenuItem key={subItem.name}>
                                 {({ active }) => (
                                   <Link
                                     href={subItem.href}
                                     className={classNames(
-                                      active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                                      active
+                                        ? "bg-gray-100 text-gray-900"
+                                        : "text-gray-700",
                                       "block px-4 py-2 text-sm whitespace-nowrap flex items-center"
                                     )}
                                   >
-                                    {subItem.icon && <subItem.icon className="h-4 w-4 mr-2" aria-hidden="true" />}
+                                    {subItem.icon && (
+                                      <subItem.icon
+                                        className="h-4 w-4 mr-2"
+                                        aria-hidden="true"
+                                      />
+                                    )}
                                     {subItem.name}
                                   </Link>
                                 )}
@@ -249,7 +343,12 @@ function Navbar() {
                           "rounded-md px-3 py-2 text-sm font-medium flex items-center"
                         )}
                       >
-                        {item.icon && <item.icon className="h-5 w-5 mr-2" aria-hidden="true" />}
+                        {item.icon && (
+                          <item.icon
+                            className="h-5 w-5 mr-2"
+                            aria-hidden="true"
+                          />
+                        )}
                         {item.name}
                       </Link>
                     )
@@ -281,29 +380,39 @@ function Navbar() {
               </div>
               <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-hidden">
                 <MenuItem>
-                  <Link
-                    href="/userprofile"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                  >
-                    Tu perfil
-                  </Link>
+                  {({ active }) => (
+                    <a // Usamos <a> o <Link> para navegar a la página de perfil
+                      href="/userprofile" // O la ruta que corresponda
+                      className={`flex items-center w-full text-left px-4 py-2 text-sm ${
+                        active ? "bg-gray-100 text-gray-700" : "text-gray-700"
+                      }`}
+                    >
+                      <CircleUserRound className="w-5 h-5 mr-2" />
+                      Mi Perfil
+                    </a>
+                  )}
                 </MenuItem>
                 <MenuItem>
-                  <Link
-                    href="/canbiarContra"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                  >
-                    Cambiar contraseña
-                  </Link>
+                  {({ active }) => (
+                    <a // Usamos <a> o <Link> para navegar
+                      href="/canbiarContra" // O la ruta que corresponda
+                      className={`flex items-center w-full text-left px-4 py-2 text-sm ${
+                        active ? "bg-gray-100 text-gray-700" : "text-gray-700"
+                      }`}
+                    >
+                      <KeyRound className="w-5 h-5 mr-2" />
+                      Cambiar Contraseña
+                    </a>
+                  )}
                 </MenuItem>
                 <MenuItem>
                   {({ active }) => (
                     <button
-                      onClick={() => signOut({ callbackUrl: "/login" })}
-                      className={`block w-full text-left px-4 py-2 text-sm ${
+                      className={`flex items-center w-full text-left px-4 py-2 text-sm ${
                         active ? "bg-gray-100 text-gray-700" : "text-gray-700"
                       }`}
                     >
+                      <LogOut className="w-5 h-5 mr-2" />
                       Cerrar sesión
                     </button>
                   )}
@@ -324,7 +433,12 @@ function Navbar() {
                   <>
                     <DisclosureButton className="flex w-full items-center justify-between rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
                       <div className="flex items-center">
-                        {item.icon && <item.icon className="h-6 w-6 mr-3" aria-hidden="true" />}
+                        {item.icon && (
+                          <item.icon
+                            className="h-6 w-6 mr-3"
+                            aria-hidden="true"
+                          />
+                        )}
                         <span>{item.name}</span>
                       </div>
                       <ChevronDownIcon
@@ -335,8 +449,8 @@ function Navbar() {
                       />
                     </DisclosureButton>
                     <DisclosurePanel className="mt-2 space-y-1 pl-4">
-                      {item.subItems?. // Optional chaining to prevent undefined error
-                        filter((subItem) => subItem.roles?.includes(userRole))
+                      {item.subItems // Optional chaining to prevent undefined error
+                        ?.filter((subItem) => subItem.roles?.includes(userRole))
                         .map((subItem) => (
                           <DisclosureButton
                             key={subItem.name}
@@ -346,7 +460,12 @@ function Navbar() {
                               "block rounded-md py-2 pl-3 pr-4 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 flex items-center"
                             )}
                           >
-                            {subItem.icon && <subItem.icon className="h-5 w-5 mr-2" aria-hidden="true" />}
+                            {subItem.icon && (
+                              <subItem.icon
+                                className="h-5 w-5 mr-2"
+                                aria-hidden="true"
+                              />
+                            )}
                             {subItem.name}
                           </DisclosureButton>
                         ))}
@@ -366,7 +485,9 @@ function Navbar() {
                     "flex items-center"
                   )}
                 >
-                  {item.icon && <item.icon className="h-6 w-6 mr-3" aria-hidden="true" />}
+                  {item.icon && (
+                    <item.icon className="h-6 w-6 mr-3" aria-hidden="true" />
+                  )}
                   {item.name}
                 </DisclosureButton>
               )

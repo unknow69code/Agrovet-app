@@ -10,7 +10,8 @@ import {
   EnvelopeIcon,
 } from "@heroicons/react/24/solid";
 import { Button } from "@/components/ui/button";
-import { Edit } from "lucide-react";
+import { Edit, Plus } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 // Define el tipo para un administrador
 type AdminType = {
@@ -76,6 +77,7 @@ export default function AdminPage() {
     nombre: "",
     correo: "",
   });
+  const router = useRouter();
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -187,7 +189,17 @@ export default function AdminPage() {
   return (
     <main className="min-h-screen bg-gray-100 p-8">
       <h1 className="mb-6 text-3xl font-bold text-blue-800">Administradores</h1>
-      
+      <div className="mb-4 flex">
+        <Button
+          size="sm"
+          variant="link"
+          className="text-green-600 border border-green-600"
+          onClick={() => router.push("/createAdmin")}
+        >
+          <Plus className="w-4 h-4" />
+          Nuevo Administrador
+        </Button>
+      </div>
       <div className="mb-4">
         <input
           type="text"

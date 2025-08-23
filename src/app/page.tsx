@@ -27,7 +27,7 @@ export default function HomePage() {
         const clientesData = await clientesRes.json();
         setTotalClientes(clientesData.count || 0);
 
-        const proveedoresRes = await fetch("/api/trabajadores"); // Reemplaza con tu endpoint real
+        const proveedoresRes = await fetch("/api/trabajadores/count"); // Reemplaza con tu endpoint real
         const proveedoresData = await proveedoresRes.json();
         setTotalProveedores(proveedoresData.count || 0);
       } catch (error) {
@@ -149,7 +149,7 @@ export default function HomePage() {
             Nuevo Cliente
           </Link>
           <Link
-            href="/createSupplier"
+            href="/registrarProveedor"
             className="block bg-blue-500 hover:bg-blue-600 text-white rounded-md p-4 text-center font-semibold"
           >
             Nuevo Proveedor
@@ -160,11 +160,12 @@ export default function HomePage() {
           >
             Nuevo Trabajador
           </Link>
+          
           <Link
-            href="/registrer"
+            href="/graficosVentas"
             className="block bg-blue-500 hover:bg-blue-600 text-white rounded-md p-4 text-center font-semibold"
           >
-           Historial de Deudas
+           Graficos de Ventas
           </Link>
           <Link
             href="/historialventa"

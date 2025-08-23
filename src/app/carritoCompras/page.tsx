@@ -6,19 +6,17 @@ import { useEffect, useState } from "react";
 
 // Define una interfaz para la estructura de tu producto en el carrito
 interface CartItem {
-    id_producto: number; // Asegúrate de usar el ID correcto para la clave única
+    id_producto: number;
     nombre: string;
     precio_venta: number;
     cantidad: number;
-    foto_url?: string; // Opcional si no todos los productos tienen foto
-    // Añade aquí cualquier otra propiedad que tu producto tenga
+    foto_url?: string;
 }
 
 function CarritoPage() {
     const [cart, setCart] = useState<CartItem[]>([]);
-    // Nuevo estado para la cantidad a eliminar para cada producto
-    // Usaremos un objeto donde la clave es id_producto y el valor es la cantidad_a_eliminar
-    const [quantityToRemove, setQuantityToRemove] = useState<{ [key: number]: number }>({});
+    // Estado para la cantidad a eliminar. Se guarda como string para evitar NaN.
+    const [quantityToRemove, setQuantityToRemove] = useState<{ [key: number]: string }>({});
 
     useEffect(() => {
         const storedCart = JSON.parse(localStorage.getItem("cart") || "[]");
@@ -33,16 +31,20 @@ function CarritoPage() {
 
     // Maneja el cambio en el input de cantidad a eliminar
     const handleQuantityToRemoveChange = (id_producto: number, value: string) => {
-        const parsedValue = parseInt(value, 10);
+        // Solo permite números en el input
+        const numericValue = value.replace(/[^0-9]/g, '');
         setQuantityToRemove((prevQuantities) => ({
             ...prevQuantities,
-            [id_producto]: isNaN(parsedValue) ? 0 : parsedValue, // Set to 0 if not a number
+            [id_producto]: numericValue,
         }));
     };
 
     // Función para ELIMINAR una cantidad específica de un producto
     const handleRemoveSpecificQuantity = (id_producto_to_update: number) => {
-        const qtyToRemove = quantityToRemove[id_producto_to_update] || 0;
+        // Convierte el string a número solo al momento de usarlo
+        const qtyToRemoveString = quantityToRemove[id_producto_to_update] || '0';
+        const qtyToRemove = parseInt(qtyToRemoveString, 10);
+
         if (qtyToRemove <= 0) {
             alert("Por favor, introduce una cantidad válida para eliminar.");
             return;
@@ -55,14 +57,15 @@ function CarritoPage() {
                     alert(
                         `No puedes eliminar ${qtyToRemove} unidades de ${item.nombre}. Solo tienes ${item.cantidad} en el carrito.`
                     );
-                    return item; // No modificar el ítem si la cantidad a eliminar es mayor
+                    return item;
                 }
                 return { ...item, cantidad: newQuantity };
             }
             return item;
-        }).filter(item => item.cantidad > 0); // Eliminar ítems cuya cantidad llegue a 0
+        }).filter(item => item.cantidad > 0);
 
         updateLocalStorage(updatedCart);
+        
         // Limpiar el input de cantidad a eliminar después de la operación
         setQuantityToRemove((prevQuantities) => {
             const newQuantities = { ...prevQuantities };
@@ -71,20 +74,19 @@ function CarritoPage() {
         });
     };
 
-    // Función para ELIMINAR COMPLETAMENTE un producto del carrito (útil como fallback)
+    // Función para ELIMINAR COMPLETAMENTE un producto del carrito
     const handleRemoveProductCompletely = (id_producto_to_remove: number) => {
         const updatedCart = cart.filter(
             (item) => item.id_producto !== id_producto_to_remove
         );
         updateLocalStorage(updatedCart);
-        // También limpiar el input de cantidad a eliminar si se elimina completamente
+        
         setQuantityToRemove((prevQuantities) => {
             const newQuantities = { ...prevQuantities };
             delete newQuantities[id_producto_to_remove];
             return newQuantities;
         });
     };
-
 
     const total = cart.reduce(
         (acc, item) => acc + item.precio_venta * item.cantidad,
@@ -115,7 +117,7 @@ function CarritoPage() {
                                     )}
                                     <div>
                                         <h3 className="font-semibold text-gray-800">{item.nombre}</h3>
-                                        <p className="text-gray-600">Cantidad actual: {item.cantidad}</p> {/* Changed label */}
+                                        <p className="text-gray-600">Cantidad actual: {item.cantidad}</p>
                                         <p className="text-gray-600">Precio Unitario: ${item.precio_venta.toFixed(2)}</p>
                                     </div>
                                 </div>
@@ -123,12 +125,13 @@ function CarritoPage() {
                                     <span className="font-semibold text-gray-800 mr-4">
                                         Subtotal: ${(item.precio_venta * item.cantidad).toFixed(2)}
                                     </span>
-                                    <div className="flex items-center gap-2"> {/* Container for input and buttons */}
+                                    <div className="flex items-center gap-2">
                                         <input
-                                            type="number"
+                                            type="text" // Cambiado a text para mejor control
+                                            pattern="[0-9]*" // Permite solo números en teclados móviles
                                             min="1"
-                                            max={item.cantidad} // Limita el máximo a la cantidad actual en el carrito
-                                            value={String(quantityToRemove[item.id_producto] || '')}
+                                            max={item.cantidad}
+                                            value={quantityToRemove[item.id_producto] || ''}
                                             onChange={(e) =>
                                                 handleQuantityToRemoveChange(item.id_producto, e.target.value)
                                             }

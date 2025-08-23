@@ -20,7 +20,6 @@ export async function GET(req: Request) {
         query += ' ORDER BY fecha_deuda DESC'; // Ordenar las deudas, las más recientes primero
 
         const deudas = await queryDatabase(query, params);
-
         return NextResponse.json(deudas, { status: 200 });
 
     } catch (error: any) {

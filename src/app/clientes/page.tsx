@@ -11,7 +11,8 @@ import {
 } from "@heroicons/react/24/solid";
 import { MapPinIcon, IdentificationIcon } from "@heroicons/react/24/outline";
 import { Button } from "@/components/ui/button";
-import { Edit } from "lucide-react";
+import { Edit, Plus } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 // Define el tipo para un cliente
 type ClienType = {
@@ -95,6 +96,7 @@ export default function ClientesPage() {
   // Estados para el cliente seleccionado
   const [selectedClient, setSelectedClient] = useState<ClienType | null>(null);
   const [clientToDelete, setClientToDelete] = useState<number | null>(null);
+  const router = useRouter();
 
   // Estado para el formulario de edición
   const [formData, setFormData] = useState({
@@ -234,7 +236,17 @@ export default function ClientesPage() {
       <h1 className="mb-6 text-3xl font-bold text-blue-800">
         Lista de Clientes
       </h1>
-
+      <div className="mb-4 flex">
+        <Button
+          size="sm"
+          variant="link"
+          className="text-green-600 border border-green-600"
+          onClick={() => router.push("/createClient")}
+        >
+          <Plus className="w-4 h-4" />
+          Nuevo Cliente
+        </Button>
+      </div>
       <div className="mb-4">
         <input
           type="text"
