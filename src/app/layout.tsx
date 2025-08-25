@@ -4,7 +4,6 @@ import Navbar from "@/components/Navbar";
 import { MantineProvider } from "@mantine/core";
 import "./globals.css";
 import Footer from "@/components/Footer";
-import { ThemeProvider } from "@/components/ThemeProvider";
 
 export const metadata: Metadata = {
   title: "Agrovet || Sistema de Inventario",
@@ -19,12 +18,6 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="min-h-screen flex flex-col">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
           <MantineProvider>
             <Providers>
               <Navbar />
@@ -32,7 +25,6 @@ export default function RootLayout({
               <Footer />
             </Providers>
           </MantineProvider>
-        </ThemeProvider>
       </body>
     </html>
   );
