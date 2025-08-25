@@ -408,14 +408,16 @@ function Navbar() {
                 </MenuItem>
                 <MenuItem>
                   {({ active }) => (
-                    <button
+                    <a
+                    href="#"
+                      onClick={() => signOut({ callbackUrl: "/login" })}
                       className={`flex items-center w-full text-left px-4 py-2 text-sm ${
                         active ? "bg-gray-100 text-gray-700" : "text-gray-700"
                       }`}
                     >
                       <LogOut className="w-5 h-5 mr-2" />
                       Cerrar sesión
-                    </button>
+                    </a>
                   )}
                 </MenuItem>
               </MenuItems>
