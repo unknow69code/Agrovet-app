@@ -257,39 +257,39 @@ export default function ClientesPage() {
         />
       </div>
 
-      <div className="overflow-x-auto rounded-lg shadow">
-        <table className="min-w-full divide-y divide-gray-400 bg-white">
-          <thead className="bg-blue-700">
+      <div className="overflow-x-auto shadow">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-blue-500 text-white">
             <tr>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-white">
+              <th className="px-6 py-3 text-left text-xs font-medium tracking-wide">
                 #
               </th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-white">
+              <th className="px-6 py-3 text-left text-xs font-medium tracking-wide">
                 Nombre
               </th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-white">
+              <th className="px-6 py-3 text-left text-xs font-medium tracking-wide">
                 Cédula
               </th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-white">
+              <th className="px-6 py-3 text-left text-xs font-medium tracking-wide">
                 Teléfono
               </th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-white">
+              <th className="px-6 py-3 text-left text-xs font-medium tracking-wide">
                 Dirección
               </th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-white">
+              <th className="px-6 py-3 text-left text-xs font-medium tracking-wide">
                 Acciones
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200">
+          <tbody className="bg-white divide-y divide-gray-200">
             {filteredClientes.map((cliente) => (
               <tr key={cliente.id} className="hover:bg-gray-50">
-                <td className="px-4 py-2 text-sm">{cliente.id}</td>
-                <td className="px-4 py-2 text-sm">{cliente.nombre}</td>
-                <td className="px-4 py-2 text-sm">{cliente.cedula}</td>
-                <td className="px-4 py-2 text-sm">{cliente.telefono}</td>
-                <td className="px-4 py-2 text-sm">{cliente.direccion}</td>
-                <td className="flex items-center space-x-2 px-4 py-2 text-sm">
+                <td className="px-6 py-3 text-left text-xs font-medium text-gray-900">{cliente.id}</td>
+                <td className="px-6 py-3 text-left text-xs font-medium text-gray-500">{cliente.nombre}</td>
+                <td className="px-6 py-3 text-left text-xs font-medium text-gray-500">{cliente.cedula}</td>
+                <td className="px-6 py-3 text-left text-xs font-medium text-gray-500">{cliente.telefono}</td>
+                <td className="px-6 py-3 text-left text-xs font-medium text-gray-500">{cliente.direccion}</td>
+                <td className="flex items-center space-x-2 px-6 py-3 text-left text-xs font-medium text-gray-500">
                   <Button
                     size="sm"
                     variant="link"

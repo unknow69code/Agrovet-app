@@ -26,37 +26,37 @@ export default async function VentasPage() {
     <main className="min-h-screen bg-gray-100 p-8">
       <h1 className="mb-6 text-3xl font-bold text-blue-800">Lista de Ventas</h1>
 
-      <div className="overflow-x-auto rounded-lg shadow">
-        <table className="min-w-full divide-y divide-gray-400 bg-white">
-          <thead className="bg-blue-700">
+     <div className="overflow-x-auto shadow">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-blue-500 text-white">
             <tr>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-white">
+              <th className="px-6 py-3 text-left text-xs font-medium tracking-wider">
                 #
               </th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-white">
+              <th className="px-6 py-3 text-left text-xs font-medium tracking-wider">
                 ID_cliente
               </th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-white">
+              <th className="px-6 py-3 text-left text-xs font-medium tracking-wider">
                 Fecha
               </th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-white">
+              <th className="px-6 py-3 text-left text-xs font-medium tracking-wider">
                 Total
               </th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-white">
+              <th className="px-6 py-3 text-left text-xs font-medium tracking-wider">
                 Productos
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200">
+          <tbody className="bg-white divide-y divide-gray-200">
             {Ventas.map((venta) => (
               <tr key={venta.id_venta} className="hover:bg-gray-50">
-                <td className="px-4 py-2 text-sm">{venta.id_venta}</td>
-                <td className="px-4 py-2 text-sm">{venta.id_cliente}</td>
-                <td className="px-4 py-2 text-sm">
+                <td className="px-6 py-3 text-left text-xs font-medium text-gray-900">{venta.id_venta}</td>
+                <td className="px-6 py-3 text-left text-xs font-medium text-gray-500">{venta.id_cliente}</td>
+                <td className="px-6 py-3 text-left text-xs font-medium text-gray-500">
                   {venta.fecha.toLocaleDateString()}
                 </td>
-                <td className="px-4 py-2 text-sm">{venta.total}</td>
-                <td className="px-4 py-2 text-sm">
+                <td className="px-6 py-3 text-left text-xs font-medium text-gray-500">{venta.total}</td>
+                <td className="px-6 py-3 text-left text-xs font-medium text-gray-500">
                   {venta.productos && venta.productos.length > 0 ? (
                     venta.productos.map((producto, prodIndex) => (
                       <div key={prodIndex}>

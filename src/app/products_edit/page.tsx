@@ -4,15 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Plus, Edit, Trash2, FileText, FileSpreadsheet } from "lucide-react";
+import { Plus, Edit, Trash2 } from "lucide-react";
 import { enqueueSnackbar } from "notistack";
 import Swal from "sweetalert2";
 
@@ -29,7 +21,8 @@ type ProductType = {
 
 export default function ProductList() {
   // State for the "Update Stock/Price" modal
-  const [showUpdateStockPriceModal, setShowUpdateStockPriceModal] = useState(false);
+  const [showUpdateStockPriceModal, setShowUpdateStockPriceModal] =
+    useState(false);
   // State for the "Edit Product Details" modal
   const [showEditDetailsModal, setShowEditDetailsModal] = useState(false);
 
@@ -224,46 +217,45 @@ export default function ProductList() {
   if (loading) return <div className="p-6">Cargando productos...</div>;
 
   return (
-    <div className="p-6 space-y-4">
-      <div className="text-center">
-        <h1 className="text-2xl font-bold items-center gap-2">
-          📦 Lista de productos
-        </h1>
-      </div>
-      <div className="flex items-center justify-between">
-        <Input
-          placeholder="Buscar por nombre"
-          className="w-64"
-          value={searchTerm}
-          onChange={handleSearch}
-        />
-      </div>
+     <div className="overflow-x-auto bg-white shadow-md rounded-lg p-6">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold items-center gap-2">
+            📦 Lista de productos
+          </h1>
+        </div>
+        <div className="flex items-center justify-between mb-4 mt-4">
+          <Input
+            placeholder="Buscar por nombre"
+            className="w-64"
+            value={searchTerm}
+            onChange={handleSearch}
+          />
+        </div>
 
-      <Card>
-        <CardContent className="p-0">
-          <Table>
-            <TableHeader className="bg-blue-700">
-              <TableRow>
-                <TableHead className="text-center text-white">Código</TableHead>
-                <TableHead className="text-white">Nombre</TableHead>
-                <TableHead className="text-white">Descripción</TableHead>
-                <TableHead className="text-white">Precio Venta</TableHead>
-                <TableHead className="text-white">Precio Compra</TableHead>
-                <TableHead className="text-white">Stock</TableHead>
-                <TableHead className="text-white">Foto</TableHead>
-                <TableHead className="text-white">Acciones</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
+        <div className="overflow-x-auto shadow">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-blue-500 text-white">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium tracking-wider">Código</th>
+                <th className="px-6 py-3 text-left text-xs font-medium tracking-wider">Nombre</th>
+                <th className="px-6 py-3 text-left text-xs font-medium tracking-wider">Descripción</th>
+                <th className="px-6 py-3 text-left text-xs font-medium tracking-wider">Precio Venta</th>
+                <th className="px-6 py-3 text-left text-xs font-medium tracking-wider">Precio Compra</th>
+                <th className="px-6 py-3 text-left text-xs font-medium tracking-wider">Stock</th>
+                <th className="px-6 py-3 text-left text-xs font-medium tracking-wider">Foto</th>
+                <th className="px-6 py-3 text-left text-xs font-medium tracking-wider">Acciones</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
               {filteredProducts.map((p) => (
-                <TableRow key={p.id_producto}>
-                  <TableCell className="text-center">{p.id_producto}</TableCell>
-                  <TableCell>{p.nombre}</TableCell>
-                  <TableCell>{p.descripcion}</TableCell>
-                  <TableCell>S/. {p.precio_venta}</TableCell>
-                  <TableCell>S/. {p.precio_compra}</TableCell>
-                  <TableCell>{p.stock}</TableCell>
-                  <TableCell>
+                <tr key={p.id_producto}>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{p.id_producto}</td>
+                  <td className="px-6 py-3 text-left text-xs font-medium text-gray-500">{p.nombre}</td>
+                  <td className="px-6 py-3 text-left text-xs font-medium text-gray-500">{p.descripcion}</td>
+                  <td className="px-6 py-3 text-left text-xs font-medium text-gray-500">S/. {p.precio_venta}</td>
+                  <td className="px-6 py-3 text-left text-xs font-medium text-gray-500">S/. {p.precio_compra}</td>
+                  <td className="px-6 py-3 text-left text-xs font-medium text-gray-500">{p.stock}</td>
+                  <td>
                     <img
                       src={p.foto_url}
                       alt="foto"
@@ -271,8 +263,8 @@ export default function ProductList() {
                       height={50}
                       className="rounded"
                     />
-                  </TableCell>
-                  <TableCell className="flex gap-2">
+                  </td>
+                  <td className="flex items-center space-x-2 px-6 py-3 text-left text-xs font-medium tracking-wider">
                     <div className="flex flex-col items-center gap-2">
                       <div className="flex gap-2">
                         <Button
@@ -304,148 +296,171 @@ export default function ProductList() {
                         Eliminar
                       </Button>
                     </div>
-                  </TableCell>
-                </TableRow>
+                  </td>
+                </tr>
               ))}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
-
-      {/* Modal for "Actualizar stock y precio" */}
-      {showUpdateStockPriceModal && selectedProduct && (
-        <div className="fixed inset-0 z-50 bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 space-y-4">
-            <h2 className="text-xl font-bold text-center">
-              Actualizar producto
-            </h2>
-            <h4> {selectedProduct.nombre} </h4>
-            <p className="text-sm text-gray-600 text-center">
-              Para actualizar stock y precio debe ingresar la cantidad comprada
-              y el precio de compra.
-            </p>
-            <div className="space-y-3">
-              <div>
-                <label className="block text-sm font-medium mb-1">
-                  Precio de compra (S/.)
-                </label>
-                <Input
-                  type="number"
-                  value={newPrice}
-                  onChange={(e) => setNewPrice(e.target.value)}
-                  min="0"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">Stock</label>
-                <Input
-                  type="number"
-                  value={newStock}
-                  onChange={(e) => setNewStock(e.target.value)}
-                  min="0"
-                />
-              </div>
-            </div>
-            <div className="flex justify-end gap-2 pt-4">
-              <Button variant="outline" onClick={closeAllModals}> {/* Changed to closeAllModals */}
-                Cancelar
-              </Button>
-              <Button
-                onClick={handleUpdateProduct}
-                className="bg-blue-600 text-white"
-              >
-                Guardar
-              </Button>
-            </div>
-          </div>
+            </tbody>
+          </table>
         </div>
-      )}
 
-      {/* Modal for "Editar producto" (general details) */}
-      {showEditDetailsModal && selectedProduct && (
-        <div className="fixed inset-0 z-50 bg-opacity-40 flex items-center justify-center">
-          <div className="bg-white rounded-xl shadow-2xl w-full max-w-lg p-6 space-y-4">
-            <h2 className="text-2xl font-bold text-center">Editar producto</h2>
-
-            <div className="space-y-3">
-              <div>
-                <label className="block text-sm font-medium mb-1">Nombre</label>
-                <Input
-                  value={selectedProduct.nombre}
-                  onChange={(e) =>
-                    setSelectedProduct({ ...selectedProduct, nombre: e.target.value })
-                  }
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium mb-1">Descripción</label>
-                <Input
-                  value={selectedProduct.descripcion}
-                  onChange={(e) =>
-                    setSelectedProduct({
-                      ...selectedProduct,
-                      descripcion: e.target.value,
-                    })
-                  }
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
+        {/* Modal for "Actualizar stock y precio" */}
+        {showUpdateStockPriceModal && selectedProduct && (
+          <div className="fixed inset-0 z-50 bg-opacity-50 flex items-center justify-center">
+            <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 space-y-4">
+              <h2 className="text-xl font-bold text-center">
+                Actualizar producto
+              </h2>
+              <h4> {selectedProduct.nombre} </h4>
+              <p className="text-sm text-gray-600 text-center">
+                Para actualizar stock y precio debe ingresar la cantidad
+                comprada y el precio de compra.
+              </p>
+              <div className="space-y-3">
                 <div>
-                  <label className="block text-sm font-medium mb-1">Precio Venta (S/.)</label>
+                  <label className="block text-sm font-medium mb-1">
+                    Precio de compra (S/.)
+                  </label>
                   <Input
                     type="number"
-                    value={selectedProduct.precio_venta}
+                    value={newPrice}
+                    onChange={(e) => setNewPrice(e.target.value)}
+                    min="0"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">
+                    Stock
+                  </label>
+                  <Input
+                    type="number"
+                    value={newStock}
+                    onChange={(e) => setNewStock(e.target.value)}
+                    min="0"
+                  />
+                </div>
+              </div>
+              <div className="flex justify-end gap-2 pt-4">
+                <Button variant="outline" onClick={closeAllModals}>
+                  {" "}
+                  {/* Changed to closeAllModals */}
+                  Cancelar
+                </Button>
+                <Button
+                  onClick={handleUpdateProduct}
+                  className="bg-blue-600 text-white"
+                >
+                  Guardar
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Modal for "Editar producto" (general details) */}
+        {showEditDetailsModal && selectedProduct && (
+          <div className="fixed inset-0 z-50 bg-opacity-40 flex items-center justify-center">
+            <div className="bg-white rounded-xl shadow-2xl w-full max-w-lg p-6 space-y-4">
+              <h2 className="text-2xl font-bold text-center">
+                Editar producto
+              </h2>
+
+              <div className="space-y-3">
+                <div>
+                  <label className="block text-sm font-medium mb-1">
+                    Nombre
+                  </label>
+                  <Input
+                    value={selectedProduct.nombre}
                     onChange={(e) =>
                       setSelectedProduct({
                         ...selectedProduct,
-                        precio_venta: parseFloat(e.target.value),
+                        nombre: e.target.value,
                       })
                     }
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-1">Precio Compra (S/.)</label>
+                  <label className="block text-sm font-medium mb-1">
+                    Descripción
+                  </label>
                   <Input
-                    type="number"
-                    value={selectedProduct.precio_compra}
+                    value={selectedProduct.descripcion}
                     onChange={(e) =>
                       setSelectedProduct({
                         ...selectedProduct,
-                        precio_compra: parseFloat(e.target.value),
+                        descripcion: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium mb-1">
+                      Precio Venta (S/.)
+                    </label>
+                    <Input
+                      type="number"
+                      value={selectedProduct.precio_venta}
+                      onChange={(e) =>
+                        setSelectedProduct({
+                          ...selectedProduct,
+                          precio_venta: parseFloat(e.target.value),
+                        })
+                      }
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium mb-1">
+                      Precio Compra (S/.)
+                    </label>
+                    <Input
+                      type="number"
+                      value={selectedProduct.precio_compra}
+                      onChange={(e) =>
+                        setSelectedProduct({
+                          ...selectedProduct,
+                          precio_compra: parseFloat(e.target.value),
+                        })
+                      }
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-1">
+                    Foto (URL)
+                  </label>
+                  <Input
+                    value={selectedProduct.foto_url}
+                    onChange={(e) =>
+                      setSelectedProduct({
+                        ...selectedProduct,
+                        foto_url: e.target.value,
                       })
                     }
                   />
                 </div>
               </div>
 
-              <div>
-                <label className="block text-sm font-medium mb-1">Foto (URL)</label>
-                <Input
-                  value={selectedProduct.foto_url}
-                  onChange={(e) =>
-                    setSelectedProduct({
-                      ...selectedProduct,
-                      foto_url: e.target.value,
-                    })
-                  }
-                />
+              <div className="flex justify-end gap-2 pt-4">
+                <Button variant="outline" onClick={closeAllModals}>
+                  {" "}
+                  {/* Changed to closeAllModals */}
+                  Cancelar
+                </Button>
+                <Button
+                  className="bg-blue-600 text-white"
+                  onClick={handleSaveChanges}
+                >
+                  Guardar cambios
+                </Button>
               </div>
             </div>
-
-            <div className="flex justify-end gap-2 pt-4">
-              <Button variant="outline" onClick={closeAllModals}> {/* Changed to closeAllModals */}
-                Cancelar
-              </Button>
-              <Button className="bg-blue-600 text-white" onClick={handleSaveChanges}>
-                Guardar cambios
-              </Button>
-            </div>
           </div>
-        </div>
-      )}
+        )}
     </div>
   );
 }

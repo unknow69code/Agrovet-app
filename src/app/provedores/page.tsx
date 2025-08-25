@@ -251,37 +251,37 @@ export default function ProveedoresPage() {
           Nuevo Proveedor
         </Button>
       </div>
-      <div className="overflow-x-auto rounded-lg shadow">
-        <table className="min-w-full divide-y divide-gray-400 bg-white">
-          <thead className="bg-blue-700">
+      <div className="overflow-x-auto shadow">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-blue-500 text-white">
             <tr>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-white">
+              <th className="px-6 py-3 text-left text-xs font-medium tracking-wide">
                 #
               </th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-white">
+              <th className="px-6 py-3 text-left text-xs font-medium tracking-wide">
                 Nombre
               </th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-white">
+              <th className="px-6 py-3 text-left text-xs font-medium tracking-wide">
                 Teléfono
               </th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-white">
+              <th className="px-6 py-3 text-left text-xs font-medium tracking-wide">
                 Correo
               </th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-white">
+              <th className="px-6 py-3 text-left text-xs font-medium tracking-wide">
                 Acciones
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200">
+          <tbody className="bg-white divide-y divide-gray-200">
             {proveedores.map((proveedor) => (
-              <tr key={proveedor.id_proveedor} className="hover:bg-gray-50">
-                <td className="px-4 py-2 text-sm">{proveedor.id_proveedor}</td>
-                <td className="px-4 py-2 text-sm">
+              <tr key={proveedor.id_proveedor} className="hover:bg-gray-50 text-gray-900">
+                <td className="px-6 py-3 text-left text-xs font-medium text-gray-900">{proveedor.id_proveedor}</td>
+                <td className="px-6 py-3 text-left text-xs font-medium text-gray-500">
                   {proveedor.nombre_proveedor}
                 </td>
-                <td className="px-4 py-2 text-sm">{proveedor.telefono}</td>
-                <td className="px-4 py-2 text-sm">{proveedor.email}</td>
-                <td className="flex items-center space-x-2 px-4 py-2 text-sm">
+                <td className="px-6 py-3 text-left text-xs font-medium text-gray-500">{proveedor.telefono}</td>
+                <td className="px-6 py-3 text-left text-xs font-medium text-gray-500">{proveedor.email}</td>
+                <td className="flex items-center space-x-2 px-6 py-3 text-left text-xs font-medium text-gray-500">
                   <Button
                     size="sm"
                     variant="link"

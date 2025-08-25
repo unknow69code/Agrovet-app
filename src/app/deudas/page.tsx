@@ -195,7 +195,7 @@ export default function DeudasPage() {
             )}
 
             {showPaymentForm && selectedDeudaId !== null && selectedDeudaCedula !== null && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
+                <div className="fixed inset-0 bg-opacity-50 flex justify-center items-center z-50 p-4">
                     <RegistrarPagoDeuda
                         id_deuda={selectedDeudaId}
                         monto_pendiente_actual={selectedDeudaMontoPendiente}

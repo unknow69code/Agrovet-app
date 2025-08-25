@@ -33,6 +33,7 @@ import { signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { ForwardRefExoticComponent, RefAttributes, SVGProps } from "react"; // Import these types
 import { TbChartHistogram } from "react-icons/tb";
+import { ThemeSwitcher } from './CambioTema'; 
 
 // Extend the session user type to include 'role'
 declare module "next-auth" {
@@ -253,7 +254,7 @@ function Navbar() {
   });
 
   return (
-    <Disclosure as="nav" style={{ backgroundColor: "#0D47A1" }}>
+    <Disclosure as="nav" style={{ backgroundColor: "#1d4ed8" }}>
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-16 items-center justify-between">
           {/* Botón de menú para móviles */}

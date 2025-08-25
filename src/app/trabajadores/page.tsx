@@ -276,43 +276,43 @@ export default function TrabajadoresPage() {
         />
       </div>
 
-      <div className="overflow-x-auto rounded-lg shadow">
-        <table className="min-w-full divide-y divide-gray-400 bg-white">
-          <thead className="bg-blue-700">
+         <div className="overflow-x-auto shadow">
+          <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-blue-700 text-white">
             <tr>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-white">
+              <th className="px-6 py-3 text-left text-xs font-medium tracking-wider">
                 #
               </th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-white">
+              <th className="px-6 py-3 text-left text-xs font-medium tracking-wider">
                 Nombre
               </th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-white">
+              <th className="px-6 py-3 text-left text-xs font-medium tracking-wider">
                 Cédula
               </th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-white">
+              <th className="px-6 py-3 text-left text-xs font-medium tracking-wider">
                 Teléfono
               </th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-white">
+              <th className="px-6 py-3 text-left text-xs font-medium tracking-wider">
                 Dirección
               </th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-white">
+              <th className="px-6 py-3 text-left text-xs font-medium tracking-wider">
                 Correo
               </th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-white">
+              <th className="px-6 py-3 text-left text-xs font-medium tracking-wider">
                 Acciones
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200">
+          <tbody className="bg-white divide-y divide-gray-200">
             {filteredTrabajadores.map((trabajador) => (
               <tr key={trabajador.id} className="hover:bg-gray-50">
-                <td className="px-4 py-2 text-sm">{trabajador.id}</td>
-                <td className="px-4 py-2 text-sm">{trabajador.nombre}</td>
-                <td className="px-4 py-2 text-sm">{trabajador.cedula}</td>
-                <td className="px-4 py-2 text-sm">{trabajador.telefono}</td>
-                <td className="px-4 py-2 text-sm">{trabajador.direccion}</td>
-                <td className="px-4 py-2 text-sm">{trabajador.correo}</td>
-                <td className="flex items-center space-x-2 px-4 py-2 text-sm">
+                <td className="px-6 py-3 text-left text-xs font-medium text-gray-900">{trabajador.id}</td>
+                <td className="px-6 py-3 text-left text-xs font-medium text-gray-500">{trabajador.nombre}</td>
+                <td className="px-6 py-3 text-left text-xs font-medium text-gray-500">{trabajador.cedula}</td>
+                <td className="px-6 py-3 text-left text-xs font-medium text-gray-500">{trabajador.telefono}</td>
+                <td className="px-6 py-3 text-left text-xs font-medium text-gray-500">{trabajador.direccion}</td>
+                <td className="px-6 py-3 text-left text-xs font-medium text-gray-500">{trabajador.correo}</td>
+                <td className="flex items-center space-x-2 px-6 py-3 text-left text-xs font-medium text-gray-500">
                   <Button
                     size="sm"
                     variant="link"
