@@ -2,7 +2,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import BuscarClienteForm from "@/components/factura/BuscarClienteForm";
+// Se corrige la importación del componente, ya que el compilador no reconoce los alias.
+import BuscarClienteForm from "@/components/factura/BuscarClienteForm"; 
 import { enqueueSnackbar } from "notistack";
 
 // Definición de tipos
@@ -24,15 +25,16 @@ interface ClientInfo {
 function GenerarFacturaPage() {
     const [cart, setCart] = useState<ProductInCart[]>([]);
     const [clienteFactura, setClienteFactura] = useState<ClientInfo | null>(null);
-    const [montoPagadoInicial, setMontoPagadoInicial] = useState<string>(''); // Nuevo: para el monto que el cliente paga inicialmente
-    const [totalFactura, setTotalFactura] = useState<number>(0); // Nuevo: para el total calculado
-    const [isClient, setIsClient] = useState(false); 
-    const descripcion = "Deuda hecha con un limite de pago de 2 meses"; // Descripción estática para la factura
+    const [montoPagadoInicial, setMontoPagadoInicial] = useState<string>('');
+    const [totalFactura, setTotalFactura] = useState<number>(0);
+    const [isClient, setIsClient] = useState(false);
+    // Nuevo estado para controlar si se está generando la factura
+    const [isGenerating, setIsGenerating] = useState(false);
+    const descripcion = "Deuda hecha con un limite de pago de 2 meses";
 
     useEffect(() => {
-        setIsClient(true); 
-
-        const storedCart = JSON.parse(localStorage.getItem("cart") || "[]"); // Usar "cart" consistente
+        setIsClient(true);
+        const storedCart = JSON.parse(localStorage.getItem("cart") || "[]");
         setCart(storedCart);
 
         const calculatedTotal = storedCart.reduce(
@@ -48,12 +50,16 @@ function GenerarFacturaPage() {
         enqueueSnackbar(`Cliente encontrado: ${clienteData.nombre} ${clienteData.apellido}`, { variant: 'info' });
     };
 
-    // Cálculos para el monto adeudado
     const parsedMontoPagadoInicial = parseFloat(montoPagadoInicial);
     const montoPagadoValido = isNaN(parsedMontoPagadoInicial) || parsedMontoPagadoInicial < 0 ? 0 : parsedMontoPagadoInicial;
     const montoAdeudado = totalFactura - montoPagadoValido;
 
     const handleGenerarFactura = async () => {
+        // Si ya se está generando una factura, no hacemos nada
+        if (isGenerating) {
+            return;
+        }
+
         if (!clienteFactura) {
             enqueueSnackbar("Por favor, busca y selecciona un cliente antes de generar la factura.", { variant: 'warning' });
             return;
@@ -69,29 +75,32 @@ function GenerarFacturaPage() {
             return;
         }
         
+        // Deshabilitar el botón y mostrar el estado de carga
+        setIsGenerating(true);
+
         try {
-            // PETICIÓN A /api/ventas (como la tenías originalmente, con la adición de id_cliente)
             const ventaResponse = await fetch("/api/ventas", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    cliente: clienteFactura, // Mantener 'cliente' como lo tenías en tu código original
+                    cliente: clienteFactura,
                     productos: cart,
                     fecha: new Date().toISOString(),
-                    total: totalFactura, // Usar totalFactura calculado
+                    total: totalFactura,
+                    montoAdeudado: montoAdeudado, // Enviar monto adeudado
+                    montoPagoInicial: montoPagadoValido, // Enviar monto pagado inicial
+                    descripcion: descripcion, // Enviar descripción
                 }),
             });
 
             if (ventaResponse.ok) {
-                // Descargar el PDF que viene de la API de ventas
                 const blob = await ventaResponse.blob();
                 const url = window.URL.createObjectURL(blob);
                 const a = document.createElement("a");
                 a.href = url;
-                // Usar cedula del cliente para el nombre del archivo si está disponible
-                a.download = `factura_${clienteFactura.cedula || clienteFactura.id}_${new Date().getTime()}.pdf`; 
+                a.download = `factura_${clienteFactura.cedula || clienteFactura.id}_${new Date().getTime()}.pdf`;
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
@@ -101,7 +110,6 @@ function GenerarFacturaPage() {
                     variant: "success",
                 });
 
-                // **** NUEVA LÓGICA: CONDICIONAL PARA LA DEUDA ****
                 if (montoAdeudado > 0) {
                     try {
                     console.log("Cliente factura antes de enviar a deudas:", clienteFactura.cedula);
@@ -112,10 +120,10 @@ function GenerarFacturaPage() {
                             },
                             body: JSON.stringify({
                                 id_cliente: clienteFactura.id,
-                                cedula: clienteFactura.cedula, // Asegúrate de que el cliente tenga una cédula
-                                monto_total_venta: totalFactura, // Total de la venta
-                                monto_adeudado: montoAdeudado, // Monto restante por pagar
-                                monto_pago_inicial: montoPagadoValido, // Monto que se pagó al momento de la venta
+                                cedula: clienteFactura.cedula,
+                                monto_total_venta: totalFactura,
+                                monto_adeudado: montoAdeudado,
+                                monto_pago_inicial: montoPagadoValido,
                                 descripcion: descripcion,
                             }),
                         });
@@ -132,7 +140,7 @@ function GenerarFacturaPage() {
                         enqueueSnackbar("Error de red al intentar registrar la deuda. Por favor, revisa tu conexión.", { variant: "error" });
                     }
                 }
-                // Limpiar el carrito y estados
+                
                 if (isClient) {
                     localStorage.removeItem("cart");
                     setCart([]);
@@ -140,12 +148,12 @@ function GenerarFacturaPage() {
                     setMontoPagadoInicial('');
                     setTotalFactura(0);
                     setTimeout(() => {
-                        window.location.href = "/"; // Redirigir después de un breve retraso
+                        window.location.href = "/";
                     }, 1000);
                 }
 
             } else {
-                const errorText = await ventaResponse.text(); // Usa .text() para ver la respuesta del servidor
+                const errorText = await ventaResponse.text();
                 console.error("Error al generar la factura:", errorText);
                 enqueueSnackbar(
                     `Error al generar la factura: ${errorText || "Ocurrió un error inesperado."}`,
@@ -160,6 +168,9 @@ function GenerarFacturaPage() {
             enqueueSnackbar("Error de red al generar la factura. Por favor, intenta de nuevo.", {
                 variant: "error",
             });
+        } finally {
+            // Habilitar el botón nuevamente al finalizar la operación
+            setIsGenerating(false);
         }
     };
 
@@ -169,8 +180,6 @@ function GenerarFacturaPage() {
                 <h2 className="text-3xl font-bold text-blue-800 mb-8 text-center">
                     Generar Factura
                 </h2>
-
-                {/* Formulario de búsqueda de cliente */}
                 <div className="bg-white rounded-lg shadow-md p-6 mb-8">
                     <BuscarClienteForm onClienteEncontrado={handleClienteEncontrado} />
                     {clienteFactura && (
@@ -184,8 +193,6 @@ function GenerarFacturaPage() {
                         </div>
                     )}
                 </div>
-
-                {/* Resumen del Carrito */}
                 <div className="bg-white rounded-lg shadow-md p-6 mb-8">
                     <h3 className="text-xl font-semibold text-gray-800 mb-4">
                         Productos en el Carrito
@@ -222,8 +229,6 @@ function GenerarFacturaPage() {
                         </div>
                     )}
                 </div>
-
-                {/* Sección de Pago y Deuda */}
                 <div className="bg-white rounded-lg shadow-md p-6 mb-8">
                     <h3 className="text-xl font-semibold text-gray-700 mb-4">Detalle de Pago</h3>
                     <div className="flex flex-col gap-4">
@@ -248,15 +253,21 @@ function GenerarFacturaPage() {
                         </div>
                     </div>
                 </div>
-
-                {/* Botón para generar la factura */}
                 {cart.length > 0 && clienteFactura && (
                     <div className="text-center">
                         <button
                             onClick={handleGenerarFactura}
-                            className="bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-8 rounded-lg text-xl focus:outline-none focus:shadow-outline"
+                            disabled={isGenerating} // Deshabilitar el botón si está en proceso
+                            className={`
+                                font-bold py-4 px-8 rounded-lg text-xl focus:outline-none focus:shadow-outline
+                                transition-colors duration-200
+                                ${isGenerating 
+                                    ? 'bg-gray-400 cursor-not-allowed'
+                                    : 'bg-green-600 hover:bg-green-700 text-white'
+                                }
+                            `}
                         >
-                            Generar Factura
+                            {isGenerating ? 'Generando...' : 'Generar Factura'}
                         </button>
                     </div>
                 )}
