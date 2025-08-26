@@ -1,12 +1,12 @@
 // src/app/api/notificaciones/[id]/route.ts
 import { markNotificationAsRead } from "@/models/notificaciones";
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 
 export const dynamic = 'force-dynamic';
 
-export async function PUT(req: { url: string; json: () => any; }) {
+export async function PUT(request: NextRequest) {
     // Obteniendo el parámetro de la ruta manualmente
-    const url = new URL(req.url);
+    const url = new URL(request.url);
     const parts = url.pathname.split("/");
     const id = decodeURIComponent(parts[parts.length - 1] || "");
 
@@ -19,7 +19,7 @@ export async function PUT(req: { url: string; json: () => any; }) {
         // Obteniendo datos del cuerpo de la solicitud
         let body = null;
         try {
-            body = await req.json();
+            body = await request.json();
             console.log("Received request body:", body);
             const { status } = body;
             console.log(`Received 'status' from body: ${status}`);
