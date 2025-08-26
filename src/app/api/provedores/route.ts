@@ -44,7 +44,7 @@ export async function POST(request: Request) {
 export async function GET() {
   try {
     const proveedores = await getProveedores();
-    console.log("Proveedores obtenidos:", proveedores);
+    //console.log("Proveedores obtenidos:", proveedores);
     return NextResponse.json(proveedores, { status: 200 });
   } catch (error: any) {
     return NextResponse.json(

@@ -1,15 +1,18 @@
+// src/app/api/ventas/route.ts
 import { NextResponse } from "next/server";
 import { guardarVenta, countVentas, getventas } from "@/models/factura";
 import { jsPDF } from "jspdf";
 import fs from 'fs/promises';
 import path from 'path';
+import { getProductById, actualizarStockProducto } from "@/models/producto";
+import { createNotification, getUnreadNotificationsByProduct } from "@/models/notificaciones";
+
 export const dynamic = 'force-dynamic'; 
 
 // Información de la empresa
 const nombreAplicacion = "AGROVET SISTEMA DE MANEJO DE VENTAS Y STOCK";
 const nombreEmpresa = "Centro Pecuario el Campo S.A.S"; 
 const rutaLogo = path.join(process.cwd(), 'public', 'veterinario.png'); // Ajusta la ruta a tu logo
-import { actualizarStockProducto } from "@/models/producto"; // Asegúrate de crear este archivo y función
 
 export async function POST(req: Request) {
     try {
@@ -38,7 +41,26 @@ export async function POST(req: Request) {
             await Promise.all(
                 productos.map(async (producto: any) => {
                     await actualizarStockProducto(producto.id_producto, producto.cantidad);
-                    console.log(`Stock del producto ${producto.nombre} actualizado a ${producto.stock - producto.cantidad}`);
+                    
+                    // Lógica para verificar y crear notificaciones
+                    const lowStockThreshold = 2; // Umbral de stock bajo
+                    
+                    const updatedProduct = await getProductById(producto.id_producto);
+                    if (updatedProduct && updatedProduct.stock <= lowStockThreshold) {
+                        // Verifica si ya existe una notificación no leída para este producto
+                        const existingNotification = await getUnreadNotificationsByProduct(producto.id_producto);
+                        
+                        if (existingNotification.length === 0) {
+                            // Si no existe, crea una nueva notificación
+                            await createNotification({
+                                id_producto: producto.id_producto,
+                                message: `¡Alerta! El producto "${updatedProduct.nombre}" tiene un stock muy bajo: ${updatedProduct.stock} unidades.`
+                            });
+                            console.log(`Notificación creada para el producto ${updatedProduct.nombre}.`);
+                        } else {
+                            console.log(`Ya existe una notificación no leída para el producto ${updatedProduct.nombre}. No se creará una nueva.`);
+                        }
+                    }
                 })
             );
             console.log("Stock de productos actualizado con éxito.");

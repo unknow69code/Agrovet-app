@@ -73,7 +73,8 @@ function Products() {
 
   const handleAddToCart = (productToAdd: ProductType) => {
     const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-    const quantityToAdd = productToAdd.quantity || 1; // Use the quantity from the input, default to 1
+    const quantityToAdd = productToAdd.quantity || 1;
+    //console.log("Respuesta de stock :", quantityToAdd);
 
     if (quantityToAdd <= 0) {
       enqueueSnackbar(`La cantidad debe ser al menos 1 para "${productToAdd.nombre}".`, { variant: "warning" });
@@ -83,10 +84,10 @@ function Products() {
         enqueueSnackbar(`No hay suficiente stock para "${productToAdd.nombre}". Stock disponible: ${productToAdd.stock}`, { variant: "warning" });
         return;
     }
-     if (productToAdd.stock <= 1) {
-        enqueueSnackbar(`Recuerda que tu stock ya es menor o igual a 5 para que compres mas producto.`, { variant: "warning" });
+     /*if (productToAdd.stock <= 1) {
+        enqueueSnackbar(`Recuerda que tu stock ya es menor o igual a 5 para que compres mas productos.`, { variant: "warning" });
         return;
-    }
+    }*/
 
 
     const existingProductIndex = cart.findIndex((item: any) => item.id_producto === productToAdd.id_producto);

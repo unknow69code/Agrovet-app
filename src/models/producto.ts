@@ -126,3 +126,13 @@ export async function actualizarStockProducto(idProducto: number, cantidadVendid
     }
 }
 
+export async function getProductById(id: number): Promise<any | null> {
+    try {
+        const query = "SELECT * FROM productos WHERE id_producto = ?";
+        const rows: any = await queryDatabase(query, [id]);
+        return rows[0] || null; // Retorna el primer resultado o null si el arreglo está vacío
+    } catch (error: any) {
+        console.error("Error al obtener el producto por ID:", error.message);
+        throw new Error("Error al obtener el producto por ID: " + error.message);
+    }
+}

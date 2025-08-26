@@ -1,4 +1,7 @@
-// @/app/components/Navbar.tsx (or wherever your Navbar component is)
+// src/app/components/Navbar.tsx
+// Este es un componente de navegación que se integra con Next.js y NextAuth.
+// Usa Headless UI para la accesibilidad y Tailwind CSS para el estilizado.
+
 "use client";
 import Link from "next/link";
 import {
@@ -27,15 +30,13 @@ import {
   RectangleStackIcon,
   CreditCardIcon,
   ChevronDownIcon,
-  // ... any other Heroicons you're using directly in the navbar
 } from "@heroicons/react/24/outline";
 import { signOut, useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
-import { ForwardRefExoticComponent, RefAttributes, SVGProps } from "react"; // Import these types
+import { useEffect, useState, ForwardRefExoticComponent, RefAttributes, SVGProps } from "react";
 import { TbChartHistogram } from "react-icons/tb";
-import { ThemeSwitcher } from './CambioTema'; 
+import NotificationTray from './Notificaciones';
 
-// Extend the session user type to include 'role'
+// Extendemos el tipo de usuario de la sesión para incluir el 'role'
 declare module "next-auth" {
   interface User {
     role?: string;
@@ -45,8 +46,7 @@ declare module "next-auth" {
   }
 }
 
-// === NEW TYPE DEFINITION FOR ICONS ===
-// This type allows both Heroicons and react-icons components as icons
+// Tipo de definición para los íconos del Navbar
 import { IconType } from "react-icons";
 import { CircleUserRound, KeyRound, LogOut, Plus } from "lucide-react";
 
@@ -59,12 +59,12 @@ type NavbarIcon =
     >
   | IconType;
 
-// === UPDATED INTERFACES FOR NAVIGATION ITEMS ===
+// Interfaces para la navegación
 interface NavigationItem {
   name: string;
   href: string;
   roles?: string[];
-  icon?: NavbarIcon; // Accept both Heroicons and react-icons
+  icon?: NavbarIcon;
   subItems?: SubNavigationItem[];
 }
 
@@ -72,13 +72,13 @@ interface SubNavigationItem {
   name: string;
   href: string;
   roles?: string[];
-  icon?: NavbarIcon; // Accept both Heroicons and react-icons
+  icon?: NavbarIcon;
 }
 
-// Your navigation configuration (ensure you've added the `icon` property to each item/subItem)
+// Configuración de la navegación (ajustada al orden de la imagen)
 const navigationConfig: NavigationItem[] = [
   {
-    name: "Home",
+    name: "Hogar",
     href: "/",
     roles: ["admin", "user"],
     icon: HomeIcon,
@@ -115,7 +115,6 @@ const navigationConfig: NavigationItem[] = [
       },
     ],
   },
-
   {
     name: "Ventas",
     href: "/ventas",
@@ -189,7 +188,7 @@ const navigationConfig: NavigationItem[] = [
     ],
   },
   {
-    name: "Adminstradores",
+    name: "Administradores",
     href: "/admin",
     roles: ["admin"],
     icon: BuildingOfficeIcon,
@@ -241,7 +240,7 @@ function Navbar() {
 
   if (status === "loading") return null;
   if (!session) return null;
-  if (!userRole) return null; // Esperar a que se cargue el rol
+  if (!userRole) return null;
 
   const filteredNavigation = navigationConfig.filter((item) => {
     if (item.subItems) {
@@ -254,12 +253,12 @@ function Navbar() {
   });
 
   return (
-    <Disclosure as="nav" style={{ backgroundColor: "#1d4ed8" }}>
+    <Disclosure as="nav" className="bg-blue-600">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-16 items-center justify-between">
           {/* Botón de menú para móviles */}
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-            <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:ring-2 focus:ring-white focus:outline-hidden focus:ring-inset">
+            <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2 text-gray-200 hover:bg-blue-700 hover:text-white focus:ring-2 focus:ring-white focus:outline-hidden focus:ring-inset">
               <span className="sr-only">Abrir menu</span>
               <Bars3Icon
                 aria-hidden="true"
@@ -275,7 +274,7 @@ function Navbar() {
           {/* Logo y navegación */}
           <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
             <div className="flex shrink-0 items-center">
-              <img alt="Logo" src="/veterinario.png" className="h-10 w-10" />
+              <img alt="Logo" src="/veterinario.png" className="h-10 w-10 rounded-full" />
             </div>
             <div className="hidden sm:ml-6 sm:block">
               <div className="flex space-x-4">
@@ -285,11 +284,8 @@ function Navbar() {
                       as="div"
                       key={item.name}
                       className="relative"
-                      style={{
-                        display: item.roles?.includes(userRole) ? "" : "none",
-                      }}
                     >
-                      <MenuButton className="text-gray-300 hover:bg-blue-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium flex items-center">
+                      <MenuButton className="text-gray-200 hover:bg-blue-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium flex items-center transition-colors duration-200">
                         {item.icon && (
                           <item.icon
                             className="h-5 w-5 mr-2"
@@ -302,7 +298,7 @@ function Navbar() {
                           aria-hidden="true"
                         />
                       </MenuButton>
-                      <MenuItems className="absolute top-full left-0 mt-1 w-32 bg-white shadow-md rounded-md z-10">
+                      <MenuItems className="absolute top-full left-0 mt-1 w-40 bg-white shadow-lg rounded-md z-10 origin-top-left ring-1 ring-black ring-opacity-5 focus:outline-none">
                         <div className="py-1">
                           {item.subItems
                             .filter((subItem) =>
@@ -317,7 +313,7 @@ function Navbar() {
                                       active
                                         ? "bg-gray-100 text-gray-900"
                                         : "text-gray-700",
-                                      "block px-4 py-2 text-sm whitespace-nowrap flex items-center"
+                                      "block px-4 py-2 text-sm whitespace-nowrap flex items-center transition-colors duration-200"
                                     )}
                                   >
                                     {subItem.icon && (
@@ -340,8 +336,8 @@ function Navbar() {
                         key={item.name}
                         href={item.href}
                         className={classNames(
-                          "text-gray-300 hover:bg-blue-700 hover:text-white",
-                          "rounded-md px-3 py-2 text-sm font-medium flex items-center"
+                          "text-gray-200 hover:bg-blue-700 hover:text-white",
+                          "rounded-md px-3 py-2 text-sm font-medium flex items-center transition-colors duration-200"
                         )}
                       >
                         {item.icon && (
@@ -359,33 +355,37 @@ function Navbar() {
             </div>
           </div>
 
-          <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+          <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:pr-0">
+            {/* Botones de carrito, notificaciones y perfil */}
             <Link
               href="/carritoCompras"
-              className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden"
+              className="relative rounded-full p-1 text-gray-200 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600 focus:outline-hidden mr-2 transition-colors duration-200"
             >
               <span className="sr-only">Ver carrito</span>
-              <ShoppingCartIcon className="size-6 " aria-hidden="true" />
+              <ShoppingCartIcon className="size-6" aria-hidden="true" />
             </Link>
+            
+            <NotificationTray />
 
-            <Menu as="div" className="relative ml-3">
+            {/* Menú de perfil de usuario */}
+            <Menu as="div" className="relative ml-2">
               <div>
-                <MenuButton className="relative flex rounded-full bg-gray-800 text-sm focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
+                <MenuButton className="relative flex rounded-full bg-blue-700 text-sm focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600 focus:outline-hidden">
                   <span className="sr-only">Abrir menú de usuario</span>
                   <img
                     alt="Perfil"
-                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                    src="https://img.freepik.com/vector-gratis/circulo-azul-usuario-blanco_78370-4707.jpg"
                     className="size-8 rounded-full"
                   />
                 </MenuButton>
               </div>
-              <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-hidden">
+              <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                 <MenuItem>
                   {({ active }) => (
-                    <a // Usamos <a> o <Link> para navegar a la página de perfil
-                      href="/userprofile" // O la ruta que corresponda
+                    <a
+                      href="/userprofile"
                       className={`flex items-center w-full text-left px-4 py-2 text-sm ${
-                        active ? "bg-gray-100 text-gray-700" : "text-gray-700"
+                        active ? "bg-gray-100 text-gray-900" : "text-gray-700"
                       }`}
                     >
                       <CircleUserRound className="w-5 h-5 mr-2" />
@@ -395,10 +395,10 @@ function Navbar() {
                 </MenuItem>
                 <MenuItem>
                   {({ active }) => (
-                    <a // Usamos <a> o <Link> para navegar
-                      href="/canbiarContra" // O la ruta que corresponda
+                    <a
+                      href="/canbiarContra"
                       className={`flex items-center w-full text-left px-4 py-2 text-sm ${
-                        active ? "bg-gray-100 text-gray-700" : "text-gray-700"
+                        active ? "bg-gray-100 text-gray-900" : "text-gray-700"
                       }`}
                     >
                       <KeyRound className="w-5 h-5 mr-2" />
@@ -409,10 +409,10 @@ function Navbar() {
                 <MenuItem>
                   {({ active }) => (
                     <a
-                    href="#"
+                      href="#"
                       onClick={() => signOut({ callbackUrl: "/login" })}
                       className={`flex items-center w-full text-left px-4 py-2 text-sm ${
-                        active ? "bg-gray-100 text-gray-700" : "text-gray-700"
+                        active ? "bg-gray-100 text-gray-900" : "text-gray-700"
                       }`}
                     >
                       <LogOut className="w-5 h-5 mr-2" />
@@ -426,7 +426,7 @@ function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Navigation Panel */}
+      {/* Panel de Navegación Móvil */}
       <DisclosurePanel className="sm:hidden">
         <div className="space-y-1 px-2 pb-3 pt-2">
           {filteredNavigation.map((item) =>
@@ -434,7 +434,7 @@ function Navbar() {
               <Disclosure key={item.name} as="div">
                 {({ open }) => (
                   <>
-                    <DisclosureButton className="flex w-full items-center justify-between rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
+                    <DisclosureButton className="flex w-full items-center justify-between rounded-md px-3 py-2 text-base font-medium text-gray-200 hover:bg-blue-700 hover:text-white transition-colors duration-200">
                       <div className="flex items-center">
                         {item.icon && (
                           <item.icon
@@ -447,12 +447,12 @@ function Navbar() {
                       <ChevronDownIcon
                         className={classNames(
                           open ? "rotate-180 transform" : "",
-                          "ml-2 h-5 w-5"
+                          "ml-2 h-5 w-5 transition-transform duration-200"
                         )}
                       />
                     </DisclosureButton>
                     <DisclosurePanel className="mt-2 space-y-1 pl-4">
-                      {item.subItems // Optional chaining to prevent undefined error
+                      {item.subItems
                         ?.filter((subItem) => subItem.roles?.includes(userRole))
                         .map((subItem) => (
                           <DisclosureButton
@@ -460,7 +460,7 @@ function Navbar() {
                             as={Link}
                             href={subItem.href}
                             className={classNames(
-                              "block rounded-md py-2 pl-3 pr-4 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 flex items-center"
+                              "block rounded-md py-2 pl-3 pr-4 text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 flex items-center transition-colors duration-200"
                             )}
                           >
                             {subItem.icon && (
@@ -484,8 +484,8 @@ function Navbar() {
                   href={item.href}
                   className={classNames(
                     "block rounded-md px-3 py-2 text-base font-medium",
-                    "text-gray-300 hover:bg-gray-700 hover:text-white",
-                    "flex items-center"
+                    "text-gray-200 hover:bg-blue-700 hover:text-white",
+                    "flex items-center transition-colors duration-200"
                   )}
                 >
                   {item.icon && (

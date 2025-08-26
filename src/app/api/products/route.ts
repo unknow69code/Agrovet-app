@@ -1,6 +1,7 @@
 // src/app/api/productos/route.ts
 import { NextResponse } from "next/server";
 import { countProducts, createProduct, getProducts, getNameProducts } from "@/models/producto"; 
+import { createNotification, getUnreadNotificationsByProduct } from "@/models/notificaciones";
 export const dynamic = 'force-dynamic'; 
 
 export async function POST(req: Request) {
@@ -9,7 +10,8 @@ export async function POST(req: Request) {
 
   try {
     const existingProduct = await getNameProducts(nombre);
-    if (existingProduct.length == nombre) { 
+    // Corrección: Verifica si el arreglo tiene elementos, no si la longitud es igual al nombre
+    if (existingProduct.length > 0) { 
       return NextResponse.json({ ok: false, message: "Ya existe un producto con este nombre." }, { status: 409 }); // 409 Conflict
     }
 

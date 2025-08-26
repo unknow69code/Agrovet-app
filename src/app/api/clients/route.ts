@@ -2,8 +2,6 @@ import { NextResponse } from "next/server";
 import {
   createClient,
   findclientBycc,
-  findClienteByCedula,
-  countClientes,
   getClients,
 } from "@/models/clientes";
 export const dynamic = "force-dynamic";
