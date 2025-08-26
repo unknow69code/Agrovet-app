@@ -5,7 +5,7 @@ export async function GET() {
     try {
         const rows = await countWorkers();
         const totaltrabajadores = rows.length > 0 ? rows[0].total : 0;
-        console.log("Total de trabajadores:", totaltrabajadores);
+        //console.log("Total de trabajadores:", totaltrabajadores);
         return NextResponse.json({ count: totaltrabajadores }, { status: 200 });
     } catch (error: any) {
         console.error("Error al obtener el conteo de ventas:", error.message);

@@ -16,7 +16,7 @@ export default function HomePage() {
       try {
         const productosRes = await fetch("/api/products?count=true"); // Endpoint para obtener el total
         const productosData = await productosRes.json();
-        console.log("Total de productos:", productosData);
+        //console.log("Total de productos:", productosData);
         setTotalProductos(productosData.count || 0);
 
         const bajoStockRes = await fetch("/api/ventas?count=true"); // Reemplaza con tu endpoint real

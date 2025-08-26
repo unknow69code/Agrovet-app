@@ -42,18 +42,18 @@ export default function NotificationTray() {
   return (
     <div className="relative z-50">
       <button
-        onClick={handleToggle}
-        className="relative p-2 rounded-full hover:bg-gray-200"
-      >
-        <span role="img" aria-label="notifications" className="text-2xl">
-          🔔
-        </span>
-        {unreadCount > 0 && (
-          <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full animate-bounce">
-            {unreadCount}
-          </span>
-        )}
-      </button>
+  onClick={handleToggle}
+  className="relative p-2 rounded-full hover:bg-gray-200"
+>
+  <span role="img" aria-label="notifications" className="text-2xl">
+    🔔
+  </span>
+  {unreadCount > 0 && (
+    <span className="absolute top-1 right-1 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
+      {unreadCount}
+    </span>
+  )}
+</button>
 
       {isOpen && (
         <div className="absolute right-0 mt-2 w-72 bg-white rounded-lg shadow-xl py-2 border border-gray-200">
